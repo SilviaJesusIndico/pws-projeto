@@ -1,0 +1,51 @@
+@* =====================================================
+    VIEW: Clientes/Delete.cshtml
+    
+    Responsabilidade:
+    - Exibir página de confirmação antes de eliminar
+    - Mostrar dados do cliente a eliminar
+    - Permitir confirmar ou cancelar
+    ===================================================== *@
+
+@page
+@model PetShop.Pages.Clientes.DeleteModel
+
+@{
+    ViewData["Title"] = "Eliminar Cliente";
+    Layout = "_AdminLayout";
+}
+
+<h1>Eliminar Cliente</h1>
+
+<h3 class="text-danger">Tem a certeza que deseja eliminar?</h3>
+
+<div class="alert alert-warning" role="alert">
+    <p><strong>Aviso:</strong> Esta ação não pode ser desfeita! Todos os animais e agendamentos deste cliente também serão eliminados.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-2">Nome:</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Cliente.Nome) @Html.DisplayFor(model => model.Cliente.Apelido)</dd>
+
+            <dt class="col-sm-2">Email:</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Cliente.Email)</dd>
+
+            <dt class="col-sm-2">Telefone:</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Cliente.Telefone)</dd>
+
+            <dt class="col-sm-2">Data de Registo:</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(model => model.Cliente.DataRegisto)</dd>
+        </dl>
+
+        <!-- Formulário de Confirmação -->
+        <form method="post">
+            <input type="hidden" asp-for="Cliente.ClienteID" />
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger">Confirmar Eliminação</button>
+                <a asp-page="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

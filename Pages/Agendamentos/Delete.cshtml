@@ -1,0 +1,94 @@
+@page
+@model PetShop.Pages.Agendamentos.DeleteModel
+
+@{
+    ViewData["Title"] = "Eliminar Agendamento";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="text-danger">🗑️ Eliminar Agendamento</h1>
+        <hr />
+        
+        <!-- Aviso de confirmação -->
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">⚠️ Atenção!</h4>
+            <p>Tem a certeza que deseja eliminar este agendamento?</p>
+            <p class="mb-0">Esta ação não pode ser desfeita.</p>
+        </div>
+        
+        <!-- Detalhes do agendamento -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Detalhes do Agendamento</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Data/Hora</dt>
+                    <dd class="col-sm-9">
+                        <strong>@Model.Agendamento.DataHora.ToString("dd/MM/yyyy HH:mm")</strong>
+                    </dd>
+                    
+                    <dt class="col-sm-3">Animal</dt>
+                    <dd class="col-sm-9">@(Model.Agendamento.Animal?.Nome ?? "N/A") (@(Model.Agendamento.Animal?.Especie ?? "N/A"))</dd>
+                    
+                    <dt class="col-sm-3">Cliente</dt>
+                    <dd class="col-sm-9">@(Model.Agendamento.Animal?.Cliente?.NomeCompleto ?? "N/A")</dd>
+                    
+                    <dt class="col-sm-3">Email Cliente</dt>
+                    <dd class="col-sm-9">@(Model.Agendamento.Animal?.Cliente?.Email ?? "N/A")</dd>
+                    
+                    <dt class="col-sm-3">Serviço</dt>
+                    <dd class="col-sm-9">@(Model.Agendamento.Servico?.NomeServico ?? "N/A")</dd>
+                    
+                    <dt class="col-sm-3">Técnico</dt>
+                    <dd class="col-sm-9">@(Model.Agendamento.Tecnico?.NomeCompleto ?? "Não atribuído")</dd>
+                    
+                    <dt class="col-sm-3">Status</dt>
+                    <dd class="col-sm-9">
+                        <span class="badge bg-@(Model.Agendamento.Status switch {
+                            "Agendado" => "primary",
+                            "Confirmado" => "info",
+                            "Concluído" => "success",
+                            "Cancelado" => "danger",
+                            _ => "secondary"
+                        })">
+                            @Model.Agendamento.Status
+                        </span>
+                    </dd>
+                    
+                    <dt class="col-sm-3">Preço</dt>
+                    <dd class="col-sm-9">
+                        <strong class="text-success">@(Model.Agendamento.PrecoFinal?.ToString("C") ?? "A definir")</strong>
+                    </dd>
+                    
+                    @if (!string.IsNullOrEmpty(Model.Agendamento.Observacoes))
+                    {
+                        <dt class="col-sm-3">Observações</dt>
+                        <dd class="col-sm-9">@Model.Agendamento.Observacoes</dd>
+                    }
+                    
+                    <dt class="col-sm-3">Criado em</dt>
+                    <dd class="col-sm-9">@Model.Agendamento.DataCriacao.ToString("dd/MM/yyyy HH:mm")</dd>
+                </dl>
+            </div>
+        </div>
+        
+        <hr />
+        
+        <!-- Formulário de confirmação -->
+        <form method="post">
+            <input type="hidden" asp-for="Agendamento.AgendamentoID" />
+            
+            <div class="d-flex justify-content-between">
+                <a asp-page="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Confirmar Eliminação
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+@page
+@model PetShop.Pages.Animais.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalhes do Animal";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h1>🐾 Detalhes do Animal</h1>
+        <hr />
+        
+        <!-- Card com informações do animal -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Informações do Animal</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Nome</dt>
+                    <dd class="col-sm-9"><strong>@Model.Animal.Nome</strong></dd>
+                    
+                    <dt class="col-sm-3">Espécie</dt>
+                    <dd class="col-sm-9">@Model.Animal.Especie</dd>
+                    
+                    <dt class="col-sm-3">Raça</dt>
+                    <dd class="col-sm-9">@(Model.Animal.Raca ?? "Não especificada")</dd>
+                    
+                    <dt class="col-sm-3">Data de Nascimento</dt>
+                    <dd class="col-sm-9">@Model.Animal.DataNascimento.ToString("dd/MM/yyyy")</dd>
+                    
+                    <dt class="col-sm-3">Idade Aproximada</dt>
+                    <dd class="col-sm-9">
+                        @{
+                            var idade = DateTime.Now.Year - Model.Animal.DataNascimento.Year;
+                            if (DateTime.Now < Model.Animal.DataNascimento.AddYears(idade)) idade--;
+                        }
+                        @idade ano@(idade != 1 ? "s" : "")
+                    </dd>
+                    
+                    <dt class="col-sm-3">Peso</dt>
+                    <dd class="col-sm-9">@(Model.Animal.Peso.HasValue ? $"{Model.Animal.Peso:F1} kg" : "Não especificado")</dd>
+                    
+                    @if (!string.IsNullOrEmpty(Model.Animal.ObservacoesMedicas))
+                    {
+                        <dt class="col-sm-3">Observações Médicas</dt>
+                        <dd class="col-sm-9">
+                            <div class="alert alert-info mb-0">
+                                @Model.Animal.ObservacoesMedicas
+                            </div>
+                        </dd>
+                    }
+                </dl>
+            </div>
+        </div>
+        
+        <!-- Card com informações do proprietário -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Informações do Proprietário</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Nome Completo</dt>
+                    <dd class="col-sm-9">@(Model.Animal.Cliente?.NomeCompleto ?? "N/A")</dd>
+                    
+                    <dt class="col-sm-3">Email</dt>
+                    <dd class="col-sm-9">
+                        <a href="mailto:@(Model.Animal.Cliente?.Email ?? "")">@(Model.Animal.Cliente?.Email ?? "N/A")</a>
+                    </dd>
+                    
+                    <dt class="col-sm-3">Telefone</dt>
+                    <dd class="col-sm-9">
+                        <a href="tel:@(Model.Animal.Cliente?.Telefone ?? "")">@(Model.Animal.Cliente?.Telefone ?? "N/A")</a>
+                    </dd>
+                </dl>
+                <a asp-page="/Clientes/Details" asp-route-id="@Model.Animal.ClienteID" class="btn btn-sm btn-outline-success">
+                    Ver Detalhes do Cliente
+                </a>
+            </div>
+        </div>
+        
+        <!-- Card com histórico de agendamentos -->
+        <div class="card mb-4">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0">📅 Histórico de Agendamentos</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Animal.Agendamentos != null && Model.Animal.Agendamentos.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Data/Hora</th>
+                                    <th>Serviço</th>
+                                    <th>Status</th>
+                                    <th>Preço</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var agendamento in Model.Animal.Agendamentos.OrderByDescending(a => a.DataHora))
+                                {
+                                    <tr>
+                                        <td>@agendamento.DataHora.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>@(agendamento.Servico?.NomeServico ?? "N/A")</td>
+                                        <td>
+                                            <span class="badge bg-@(agendamento.Status switch {
+                                                "Agendado" => "primary",
+                                                "Confirmado" => "info",
+                                                "Concluído" => "success",
+                                                "Cancelado" => "danger",
+                                                _ => "secondary"
+                                            })">
+                                                @agendamento.Status
+                                            </span>
+                                        </td>
+                                        <td>@(agendamento.PrecoFinal?.ToString("C") ?? "A definir")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-muted mb-0">
+                        <small>Total de agendamentos: @Model.Animal.Agendamentos.Count</small>
+                    </p>
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Este animal ainda não tem agendamentos registados.</p>
+                }
+            </div>
+        </div>
+        
+        <!-- Botões de ação -->
+        <div class="d-flex justify-content-between">
+            <a asp-page="./Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar à Lista
+            </a>
+            <div>
+                <a asp-page="./Edit" asp-route-id="@Model.Animal.AnimalID" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a asp-page="./Delete" asp-route-id="@Model.Animal.AnimalID" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Eliminar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

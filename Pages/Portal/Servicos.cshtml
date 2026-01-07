@@ -1,0 +1,134 @@
+@* ============================================================================
+    PORTAL/SERVICOS.CSHTML - Página de Lista de Serviços
+    ============================================================================
+    
+    Esta página apresenta todos os serviços disponíveis na PetShop.
+    Os utilizadores podem:
+    - Ver detalhes completos de cada serviço (nome, descrição, preço, duração)
+    - Clicar para marcar diretamente um serviço específico
+    
+    Estrutura da página:
+    1. Cabeçalho - Título e descrição da página
+    2. Grid de Serviços - Cards com todos os serviços disponíveis
+    3. Botão de Voltar - Navegação para o portal principal
+    
+    Layout: _Layout.cshtml (portal público)
+    Model: ServicosModel (carrega todos os serviços da base de dados)
+============================================================================ *@
+
+@page
+@model PetShop.Pages.Portal.ServicosModel
+@{
+    ViewData["Title"] = "Nossos Serviços";
+}
+
+<div class="container py-5">
+    @* ===== CABEÇALHO DA PÁGINA =====
+       Título e descrição introdutória *@
+    <div class="text-center mb-5">
+        <h1>🐾 Nossos Serviços</h1>
+        <p class="lead">Conheça todos os serviços que oferecemos para o seu pet</p>
+    </div>
+
+    @* ===== GRID DE SERVIÇOS =====
+       Apresenta todos os serviços em cards responsivos
+       - col-lg-4: 3 cards por linha em ecrãs grandes
+       - col-md-6: 2 cards por linha em ecrãs médios
+       - col-12: 1 card por linha em ecrãs pequenos *@
+    <div class="row">
+        @* Verifica se existem serviços na base de dados *@
+        @if (Model.Servicos != null && Model.Servicos.Any())
+        {
+            @* Loop para criar um card completo por cada serviço *@
+            @foreach (var servico in Model.Servicos)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card service-card-full h-100">
+                        @* ===== CABEÇALHO DO CARD =====
+                           Contém ícone e nome do serviço *@
+                        <div class="card-header text-center">
+                            @* Ícone dinâmico baseado no tipo de serviço *@
+                            <div class="service-icon-large">
+                                @if (servico.NomeServico?.Contains("Banho") == true)
+                                {
+                                    <span>🛁</span> @* Ícone de banheira para banhos *@
+                                }
+                                else if (servico.NomeServico?.Contains("Tosa") == true)
+                                {
+                                    <span>✂️</span> @* Ícone de tesoura para tosas *@
+                                }
+                                else if (servico.NomeServico?.Contains("Consulta") == true || servico.NomeServico?.Contains("Vet") == true)
+                                {
+                                    <span>🩺</span> @* Ícone médico para consultas *@
+                                }
+                                else if (servico.NomeServico?.Contains("Vacina") == true)
+                                {
+                                    <span>💉</span> @* Ícone de seringa para vacinação *@
+                                }
+                                else if (servico.NomeServico?.Contains("Hotel") == true || servico.NomeServico?.Contains("Hospedagem") == true)
+                                {
+                                    <span>🏠</span> @* Ícone de casa para hospedagem *@
+                                }
+                                else if (servico.NomeServico?.Contains("Adestramento") == true || servico.NomeServico?.Contains("Treino") == true)
+                                {
+                                    <span>🎓</span> @* Ícone de formação para treino *@
+                                }
+                                else
+                                {
+                                    <span>🐾</span> @* Ícone genérico de patinha *@
+                                }
+                            </div>
+                            <h4 class="mb-0">@servico.NomeServico</h4>
+                        </div>
+
+                        @* ===== CORPO DO CARD =====
+                           Descrição, preço e duração do serviço *@
+                        <div class="card-body">
+                            <p class="card-text">@servico.Descricao</p>
+                            <hr />
+                            @* Detalhes do serviço em formato de lista *@
+                            <div class="service-details">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span><strong>Preço:</strong></span>
+                                    @* Preço formatado em euros com cultura portuguesa *@
+                                    <span class="service-price-tag">@servico.Preco.ToString("C", new System.Globalization.CultureInfo("pt-PT"))</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span><strong>Duração:</strong></span>
+                                    <span>⏱️ @servico.DuracaoMinutos min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* ===== RODAPÉ DO CARD =====
+                           Botão para marcar este serviço específico *@
+                        <div class="card-footer text-center">
+                            @* Link passa o ID do serviço como parâmetro para pré-selecionar na marcação *@
+                            <a href="/Portal/Marcar?servicoId=@servico.ServicoID" class="btn btn-primary w-100">
+                                Marcar Este Serviço
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            @* Mensagem quando não há serviços disponíveis *@
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <h4>Nenhum serviço disponível</h4>
+                    <p>Por favor, volte mais tarde.</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    @* ===== BOTÃO DE NAVEGAÇÃO =====
+       Permite voltar à página principal do portal *@
+    <div class="text-center mt-4">
+        <a href="/Portal" class="btn btn-secondary">
+            ← Voltar ao Portal
+        </a>
+    </div>
+</div>

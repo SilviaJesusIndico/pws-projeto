@@ -1,0 +1,103 @@
+@page
+@model PetShop.Pages.Agendamentos.CreateModel
+
+@{
+    ViewData["Title"] = "Novo Agendamento";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>📅 Criar Novo Agendamento</h1>
+        <hr />
+        
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            
+            <!-- Campo: Animal -->
+            <div class="mb-3">
+                <label asp-for="Agendamento.AnimalID" class="form-label">Animal *</label>
+                <select asp-for="Agendamento.AnimalID" asp-items="Model.AnimaisSelectList" class="form-select" required>
+                    <option value="">-- Selecione o animal --</option>
+                </select>
+                <span asp-validation-for="Agendamento.AnimalID" class="text-danger"></span>
+                <div class="form-text">Selecione o animal que receberá o serviço</div>
+            </div>
+            
+            <!-- Campo: Serviço -->
+            <div class="mb-3">
+                <label asp-for="Agendamento.ServicoID" class="form-label">Serviço *</label>
+                <select asp-for="Agendamento.ServicoID" asp-items="Model.ServicosSelectList" class="form-select" required>
+                    <option value="">-- Selecione o serviço --</option>
+                </select>
+                <span asp-validation-for="Agendamento.ServicoID" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Técnico -->
+            <div class="mb-3">
+                <label asp-for="Agendamento.TecnicoID" class="form-label">Técnico</label>
+                <select asp-for="Agendamento.TecnicoID" asp-items="Model.TecnicosSelectList" class="form-select">
+                    <option value="">-- A definir posteriormente --</option>
+                </select>
+                <span asp-validation-for="Agendamento.TecnicoID" class="text-danger"></span>
+                <div class="form-text">Campo opcional - pode ser atribuído depois</div>
+            </div>
+            
+            <!-- Campo: Data e Hora -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Agendamento.DataHora" class="form-label">Data e Hora *</label>
+                    <input asp-for="Agendamento.DataHora" type="datetime-local" class="form-control" />
+                    <span asp-validation-for="Agendamento.DataHora" class="text-danger"></span>
+                </div>
+                
+                <!-- Campo: Status -->
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Agendamento.Status" class="form-label">Status *</label>
+                    <select asp-for="Agendamento.Status" class="form-select" required>
+                        <option value="Agendado">Agendado</option>
+                        <option value="Confirmado">Confirmado</option>
+                        <option value="Concluído">Concluído</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                    <span asp-validation-for="Agendamento.Status" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <!-- Campo: Preço Final -->
+            <div class="mb-3">
+                <label asp-for="Agendamento.PrecoFinal" class="form-label">Preço Final (€)</label>
+                <div class="input-group">
+                    <span class="input-group-text">€</span>
+                    <input asp-for="Agendamento.PrecoFinal" type="number" step="0.01" class="form-control" placeholder="Usar preço do serviço" />
+                </div>
+                <span asp-validation-for="Agendamento.PrecoFinal" class="text-danger"></span>
+                <div class="form-text">Deixe vazio para usar o preço padrão do serviço</div>
+            </div>
+            
+            <!-- Campo: Observações -->
+            <div class="mb-3">
+                <label asp-for="Agendamento.Observacoes" class="form-label">Observações</label>
+                <textarea asp-for="Agendamento.Observacoes" class="form-control" rows="3" 
+                          placeholder="Observações especiais, instruções, alergias..."></textarea>
+                <span asp-validation-for="Agendamento.Observacoes" class="text-danger"></span>
+            </div>
+            
+            <hr />
+            
+            <!-- Botões de ação -->
+            <div class="d-flex justify-content-between">
+                <a asp-page="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Criar Agendamento
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

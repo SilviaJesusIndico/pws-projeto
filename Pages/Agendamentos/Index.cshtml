@@ -1,0 +1,194 @@
+@page
+@model PetShop.Pages.Agendamentos.IndexModel
+
+@{
+    ViewData["Title"] = "Gestão de Agendamentos";
+    Layout = "_AdminLayout";
+}
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>📅 Gestão de Agendamentos</h1>
+        <p class="text-muted">Todos os agendamentos de serviços da PetShop</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a asp-page="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Novo Agendamento
+        </a>
+    </div>
+</div>
+
+<!-- Filtro por status -->
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="btn-group" role="group">
+                <a asp-page="./Index" asp-route-filtroStatus="" 
+                   class="btn btn-@(string.IsNullOrEmpty(Model.FiltroStatus) ? "primary" : "outline-primary")">
+                    Todos
+                </a>
+                <a asp-page="./Index" asp-route-filtroStatus="Agendado" 
+                   class="btn btn-@(Model.FiltroStatus == "Agendado" ? "primary" : "outline-primary")">
+                    Agendado
+                </a>
+                <a asp-page="./Index" asp-route-filtroStatus="Confirmado" 
+                   class="btn btn-@(Model.FiltroStatus == "Confirmado" ? "info" : "outline-info")">
+                    Confirmado
+                </a>
+                <a asp-page="./Index" asp-route-filtroStatus="Concluído" 
+                   class="btn btn-@(Model.FiltroStatus == "Concluído" ? "success" : "outline-success")">
+                    Concluído
+                </a>
+                <a asp-page="./Index" asp-route-filtroStatus="Cancelado" 
+                   class="btn btn-@(Model.FiltroStatus == "Cancelado" ? "danger" : "outline-danger")">
+                    Cancelado
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Tabela de agendamentos -->
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    <a asp-page="./Index" 
+                       asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "data_asc" ? "" : "data_asc")"
+                       asp-route-filtroStatus="@Model.FiltroStatus"
+                       class="text-white text-decoration-none">
+                        Data/Hora @(Model.OrdenacaoAtual == "data_asc" ? "↑" : Model.OrdenacaoAtual == "" || Model.OrdenacaoAtual == null ? "↓" : "")
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Index" 
+                       asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "animal_desc" ? "animal" : "animal_desc")"
+                       asp-route-filtroStatus="@Model.FiltroStatus"
+                       class="text-white text-decoration-none">
+                        Animal @(Model.OrdenacaoAtual == "animal" ? "↑" : Model.OrdenacaoAtual == "animal_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th>Cliente</th>
+                <th>
+                    <a asp-page="./Index" 
+                       asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "servico_desc" ? "servico" : "servico_desc")"
+                       asp-route-filtroStatus="@Model.FiltroStatus"
+                       class="text-white text-decoration-none">
+                        Serviço @(Model.OrdenacaoAtual == "servico" ? "↑" : Model.OrdenacaoAtual == "servico_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th>Técnico</th>
+                <th>
+                    <a asp-page="./Index" 
+                       asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "status_desc" ? "status" : "status_desc")"
+                       asp-route-filtroStatus="@Model.FiltroStatus"
+                       class="text-white text-decoration-none">
+                        Status @(Model.OrdenacaoAtual == "status" ? "↑" : Model.OrdenacaoAtual == "status_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th>Preço</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var agendamento in Model.Agendamentos)
+            {
+                <tr>
+                    <td>
+                        <strong>@agendamento.DataHora.ToString("dd/MM/yyyy")</strong><br/>
+                        <small class="text-muted">@agendamento.DataHora.ToString("HH:mm")</small>
+                    </td>
+                    <td>@(agendamento.Animal?.Nome ?? "N/A")</td>
+                    <td>@(agendamento.Animal?.Cliente?.NomeCompleto ?? "N/A")</td>
+                    <td>@(agendamento.Servico?.NomeServico ?? "N/A")</td>
+                    <td>@(agendamento.Tecnico?.NomeCompleto ?? "Não atribuído")</td>
+                    <td>
+                        <span class="badge bg-@(agendamento.Status switch {
+                            "Agendado" => "primary",
+                            "Confirmado" => "info",
+                            "Concluído" => "success",
+                            "Cancelado" => "danger",
+                            _ => "secondary"
+                        })">
+                            @agendamento.Status
+                        </span>
+                    </td>
+                    <td>@(agendamento.PrecoFinal?.ToString("C") ?? "A definir")</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a asp-page="./Details" asp-route-id="@agendamento.AgendamentoID" class="btn btn-sm btn-info" title="Detalhes">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a asp-page="./Edit" asp-route-id="@agendamento.AgendamentoID" class="btn btn-sm btn-dark" title="Editar">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            @if (agendamento.Status != "Concluído" && agendamento.Status != "Cancelado")
+                            {
+                                <a asp-page="./Edit" asp-route-id="@agendamento.AgendamentoID" asp-route-concluir="true" class="btn btn-sm btn-success" title="Concluir">
+                                    <i class="fas fa-check"></i>
+                                </a>
+                            }
+                            <a asp-page="./Delete" asp-route-id="@agendamento.AgendamentoID" class="btn btn-sm btn-danger" title="Eliminar">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Controles de paginação -->
+@if (Model.Agendamentos.TotalPaginas > 1)
+{
+    <nav aria-label="Paginação">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.Agendamentos.HaPaginasAntes ? "" : "disabled")">
+                <a class="page-link" 
+                   asp-page="./Index" 
+                   asp-route-indexPagina="@(Model.Agendamentos.PaginaIndex - 1)"
+                   asp-route-ordenacaoAtual="@Model.OrdenacaoAtual"
+                   asp-route-filtroStatus="@Model.FiltroStatus">
+                    Anterior
+                </a>
+            </li>
+            
+            @for (int i = 1; i <= Model.Agendamentos.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == Model.Agendamentos.PaginaIndex ? "active" : "")">
+                    <a class="page-link" 
+                       asp-page="./Index" 
+                       asp-route-indexPagina="@i"
+                       asp-route-ordenacaoAtual="@Model.OrdenacaoAtual"
+                       asp-route-filtroStatus="@Model.FiltroStatus">
+                        @i
+                    </a>
+                </li>
+            }
+            
+            <li class="page-item @(Model.Agendamentos.HaPaginasDepois ? "" : "disabled")">
+                <a class="page-link" 
+                   asp-page="./Index" 
+                   asp-route-indexPagina="@(Model.Agendamentos.PaginaIndex + 1)"
+                   asp-route-ordenacaoAtual="@Model.OrdenacaoAtual"
+                   asp-route-filtroStatus="@Model.FiltroStatus">
+                    Próximo
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <p class="text-center text-muted">
+        Página @Model.Agendamentos.PaginaIndex de @Model.Agendamentos.TotalPaginas
+    </p>
+}
+
+@if (!Model.Agendamentos.Any())
+{
+    <div class="alert alert-info text-center" role="alert">
+        <i class="bi bi-info-circle"></i> Nenhum agendamento encontrado para os filtros selecionados.
+        <a asp-page="./Create" class="alert-link">Criar novo agendamento</a>
+    </div>
+}

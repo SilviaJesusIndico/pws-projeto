@@ -1,0 +1,147 @@
+@* ============================================================================
+    PORTAL/INDEX.CSHTML - Página Principal do Portal do Cliente
+    ============================================================================
+    
+    Esta é a página inicial do portal público para os clientes.
+    Os utilizadores podem:
+    - Ver os serviços disponíveis na PetShop
+    - Conhecer os benefícios da empresa
+    - Aceder rapidamente à marcação de serviços
+    
+    Estrutura da página:
+    1. Hero Section - Banner de boas-vindas com botão de marcação
+    2. Secção de Serviços - Cards com os 6 principais serviços
+    3. Secção de Benefícios - Porquê escolher a PetShop
+    4. Call to Action - Incentivo final para marcar
+    
+    Layout: _Layout.cshtml (portal público)
+    Model: IndexModel (carrega serviços da base de dados)
+============================================================================ *@
+
+@page
+@model PetShop.Pages.Portal.IndexModel
+@{
+    ViewData["Title"] = "Portal do Cliente";
+}
+
+@* ===== HERO SECTION =====
+   Banner principal com mensagem de boas-vindas e botão de ação *@
+<div class="portal-hero">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-center gap-3 mb-3">
+            <img src="~/images/logopetshop.png" alt="Peludos & Companhia Logo" style="height: 60px; width: auto;" />
+            <h1 class="mb-0">Bem-vindo à Peludos & Companhia</h1>
+        </div>
+        <p class="lead">Cuidamos do seu melhor amigo com todo o carinho e profissionalismo</p>
+        @* Botão principal para marcar serviço - destaque visual *@
+        <a href="/Portal/Marcar" class="btn btn-primary btn-lg">
+            <i class="fas fa-calendar-plus"></i> Marcar Serviço
+        </a>
+    </div>
+</div>
+
+<div class="container py-5">
+    @* ===== SECÇÃO DE SERVIÇOS =====
+       Apresenta os serviços disponíveis em formato de cards
+       Carrega dinamicamente da base de dados (máximo 6 serviços) *@
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Nossos Serviços</h2>
+        <div class="row">
+            @* Verifica se existem serviços para mostrar *@
+            @if (Model.Servicos != null && Model.Servicos.Any())
+            {
+                @* Loop para criar um card por cada serviço *@
+                @foreach (var servico in Model.Servicos)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card service-card h-100">
+                            <div class="card-body text-center">
+                                @* Ícone dinâmico baseado no nome do serviço *@
+                                <div class="service-icon">
+                                    @if (servico.NomeServico?.Contains("Banho") == true)
+                                    {
+                                        <span>🛁</span>
+                                    }
+                                    else if (servico.NomeServico?.Contains("Tosa") == true)
+                                    {
+                                        <span>✂️</span>
+                                    }
+                                    else if (servico.NomeServico?.Contains("Consulta") == true || servico.NomeServico?.Contains("Vet") == true)
+                                    {
+                                        <span>🩺</span>
+                                    }
+                                    else if (servico.NomeServico?.Contains("Vacina") == true)
+                                    {
+                                        <span>💉</span>
+                                    }
+                                    else
+                                    {
+                                        <span>🐾</span>
+                                    }
+                                </div>
+                                @* Informações do serviço *@
+                                <h4 class="card-title">@servico.NomeServico</h4>
+                                <p class="card-text">@servico.Descricao</p>
+                                @* Preço formatado em euros (cultura pt-PT) *@
+                                <p class="service-price">@servico.Preco.ToString("C", new System.Globalization.CultureInfo("pt-PT"))</p>
+                                <p class="service-duration">
+                                    <small>⏱️ @servico.DuracaoMinutos minutos</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                @* Mensagem quando não há serviços *@
+                <div class="col-12 text-center">
+                    <p class="text-muted">Nenhum serviço disponível no momento.</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    @* ===== SECÇÃO DE BENEFÍCIOS =====
+       Apresenta as vantagens de escolher a PetShop *@
+    <section class="benefits-section mb-5">
+        <h2 class="text-center mb-4">Porquê Escolher-nos?</h2>
+        <div class="row">
+            @* Benefício 1: Profissionais Qualificados *@
+            <div class="col-md-4 mb-4">
+                <div class="benefit-card text-center">
+                    <div class="benefit-icon">👨‍⚕️</div>
+                    <h5>Profissionais Qualificados</h5>
+                    <p>Equipa especializada e certificada no cuidado animal</p>
+                </div>
+            </div>
+            @* Benefício 2: Tratamento com Amor *@
+            <div class="col-md-4 mb-4">
+                <div class="benefit-card text-center">
+                    <div class="benefit-icon">💖</div>
+                    <h5>Tratamento com Amor</h5>
+                    <p>Cada pet é tratado com carinho e dedicação</p>
+                </div>
+            </div>
+            @* Benefício 3: Qualidade Premium *@
+            <div class="col-md-4 mb-4">
+                <div class="benefit-card text-center">
+                    <div class="benefit-icon">🏆</div>
+                    <h5>Qualidade Premium</h5>
+                    <p>Produtos e equipamentos de alta qualidade</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @* ===== CALL TO ACTION =====
+       Secção final com botões para incentivar a ação do utilizador *@
+    <section class="cta-section text-center py-5">
+        <h3>Pronto para mimar o seu pet?</h3>
+        <p class="mb-4">Marque já o seu serviço de forma rápida e fácil!</p>
+        @* Botão primário: Marcar agora *@
+        <a href="/Portal/Marcar" class="btn btn-primary btn-lg me-2">Marcar Agora</a>
+        @* Botão secundário: Ver todos os serviços *@
+        <a href="/Portal/Servicos" class="btn btn-outline-primary btn-lg">Ver Serviços</a>
+    </section>
+</div>

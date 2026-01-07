@@ -1,0 +1,73 @@
+@page
+@model PetShop.Pages.Servicos.DeleteModel
+
+@{
+    ViewData["Title"] = "Eliminar Serviço";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="text-danger">🗑️ Eliminar Serviço</h1>
+        <hr />
+        
+        <!-- Aviso de confirmação -->
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">⚠️ Atenção!</h4>
+            <p>Tem a certeza que deseja eliminar este serviço?</p>
+            @if (Model.TotalAgendamentos > 0)
+            {
+                <hr>
+                <p class="mb-0">
+                    <strong>Nota:</strong> Existem <strong>@Model.TotalAgendamentos agendamento(s)</strong> associados a este serviço.
+                    Ao eliminar, estes agendamentos ficarão sem serviço associado.
+                </p>
+            }
+        </div>
+        
+        <!-- Detalhes do serviço -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Detalhes do Serviço</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Nome</dt>
+                    <dd class="col-sm-9">@Model.Servico.NomeServico</dd>
+                    
+                    <dt class="col-sm-3">Descrição</dt>
+                    <dd class="col-sm-9">@(Model.Servico.Descricao ?? "Sem descrição")</dd>
+                    
+                    <dt class="col-sm-3">Preço</dt>
+                    <dd class="col-sm-9"><strong class="text-success">@Model.Servico.Preco.ToString("C")</strong></dd>
+                    
+                    <dt class="col-sm-3">Duração</dt>
+                    <dd class="col-sm-9">@Model.Servico.DuracaoMinutos minutos</dd>
+                    
+                    <dt class="col-sm-3">Agendamentos</dt>
+                    <dd class="col-sm-9">
+                        <span class="badge bg-@(Model.TotalAgendamentos > 0 ? "warning" : "secondary")">
+                            @Model.TotalAgendamentos
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        
+        <hr />
+        
+        <!-- Formulário de confirmação -->
+        <form method="post">
+            <input type="hidden" asp-for="Servico.ServicoID" />
+            
+            <div class="d-flex justify-content-between">
+                <a asp-page="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Confirmar Eliminação
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

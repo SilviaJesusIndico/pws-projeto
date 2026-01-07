@@ -1,0 +1,184 @@
+@page
+@model PetShop.Pages.Animais.IndexModel
+
+@{
+    ViewData["Title"] = "Gestão de Animais";
+    Layout = "_AdminLayout";
+}
+
+<!-- Cabeçalho da página com botão de criar novo -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">🐾 Gestão de Animais</h1>
+        <p class="text-muted mb-0">Lista de todos os animais de estimação cadastrados no sistema</p>
+    </div>
+    <a asp-page="Create" class="btn btn-primary">
+        <strong>+ Novo Animal</strong>
+    </a>
+</div>
+
+<!-- Formulário de filtro -->
+<div class="card mb-4 border-0">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-10">
+                <label class="form-label">🔍 Pesquisar por nome, espécie ou raça:</label>
+                <input type="text" 
+                       name="FiltroAtual" 
+                       value="@Model.FiltroAtual" 
+                       class="form-control" 
+                       placeholder="Digite o nome do animal, espécie ou raça..." />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    Pesquisar
+                </button>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.FiltroAtual))
+            {
+                <div class="col-12">
+                    <a asp-page="./Index" class="btn btn-outline-secondary btn-sm">
+                        Limpar Filtro
+                    </a>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+<!-- Tabela de animais -->
+@if (Model.Animais.Any())
+{
+    <div class="card border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a asp-page="./Index" 
+                                   asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "nome_desc" ? "" : "nome_desc")"
+                                   asp-route-filtroAtual="@Model.FiltroAtual"
+                                   class="text-white text-decoration-none">
+                                    Nome @(Model.OrdenacaoAtual == "nome_desc" ? "↓" : Model.OrdenacaoAtual == "" || Model.OrdenacaoAtual == null ? "↑" : "↕️")
+                                </a>
+                            </th>
+                            <th>
+                                <a asp-page="./Index" 
+                                   asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "especie_desc" ? "especie" : "especie_desc")"
+                                   asp-route-filtroAtual="@Model.FiltroAtual"
+                                   class="text-white text-decoration-none">
+                                    Espécie @(Model.OrdenacaoAtual == "especie" ? "↑" : Model.OrdenacaoAtual == "especie_desc" ? "↓" : "↕️")
+                                </a>
+                            </th>
+                            <th>Raça</th>
+                            <th>
+                                <a asp-page="./Index" 
+                                   asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "data_desc" ? "data" : "data_desc")"
+                                   asp-route-filtroAtual="@Model.FiltroAtual"
+                                   class="text-white text-decoration-none">
+                                    Data Nascimento @(Model.OrdenacaoAtual == "data" ? "↑" : Model.OrdenacaoAtual == "data_desc" ? "↓" : "↕️")
+                                </a>
+                            </th>
+                            <th>
+                                <a asp-page="./Index" 
+                                   asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "cliente_desc" ? "cliente" : "cliente_desc")"
+                                   asp-route-filtroAtual="@Model.FiltroAtual"
+                                   class="text-white text-decoration-none">
+                                    Proprietário @(Model.OrdenacaoAtual == "cliente" ? "↑" : Model.OrdenacaoAtual == "cliente_desc" ? "↓" : "↕️")
+                                </a>
+                            </th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var animal in Model.Animais)
+                        {
+                            <tr>
+                                <td class="fw-bold">@animal.Nome</td>
+                                <td>@animal.Especie</td>
+                                <td>@animal.Raca</td>
+                                <td>@animal.DataNascimento.ToString("dd/MM/yyyy")</td>
+                                <td>@(animal.Cliente?.NomeCompleto ?? "N/A")</td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a asp-page="./Details" asp-route-id="@animal.AnimalID" 
+                                           class="btn btn-info btn-sm" title="Ver Detalhes">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-page="./Edit" asp-route-id="@animal.AnimalID" 
+                                           class="btn btn-dark btn-sm" title="Editar">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a asp-page="./Delete" asp-route-id="@animal.AnimalID" 
+                                           class="btn btn-danger btn-sm" title="Eliminar">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controles de paginação -->
+    @if (Model.Animais.TotalPaginas > 1)
+    {
+        <nav aria-label="Paginação" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.Animais.HaPaginasAntes ? "" : "disabled")">
+                    <a class="page-link" 
+                       asp-page="./Index" 
+                       asp-route-indexPagina="@(Model.Animais.PaginaIndex - 1)"
+                       asp-route-ordenacaoAtual="@Model.OrdenacaoAtual"
+                       asp-route-filtroAtual="@Model.FiltroAtual">
+                        ← Anterior
+                    </a>
+                </li>
+                
+                <li class="page-item active">
+                    <span class="page-link">
+                        Página @Model.Animais.PaginaIndex de @Model.Animais.TotalPaginas
+                    </span>
+                </li>
+                
+                <li class="page-item @(Model.Animais.HaPaginasDepois ? "" : "disabled")">
+                    <a class="page-link" 
+                       asp-page="./Index" 
+                       asp-route-indexPagina="@(Model.Animais.PaginaIndex + 1)"
+                       asp-route-ordenacaoAtual="@Model.OrdenacaoAtual"
+                       asp-route-filtroAtual="@Model.FiltroAtual">
+                        Próximo →
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <div class="card border-0">
+        <div class="card-body text-center py-5">
+            <p class="mb-2" style="font-size: 3rem;">🐕</p>
+            <h5>Nenhum animal encontrado</h5>
+            <p class="text-muted">
+                @if (!string.IsNullOrEmpty(Model.FiltroAtual))
+                {
+                    <span>Tente ajustar os filtros de pesquisa ou </span>
+                    <a asp-page="./Index" class="alert-link">limpar filtro</a>
+                }
+                else
+                {
+                    <span>Comece adicionando o primeiro animal ao sistema.</span>
+                }
+            </p>
+            @if (string.IsNullOrEmpty(Model.FiltroAtual))
+            {
+                <a asp-page="./Create" class="btn btn-primary mt-3">Adicionar Primeiro Animal</a>
+            }
+        </div>
+    </div>
+}

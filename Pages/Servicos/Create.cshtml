@@ -1,0 +1,75 @@
+@page
+@model PetShop.Pages.Servicos.CreateModel
+
+@{
+    ViewData["Title"] = "Novo Serviço";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>🛁 Cadastrar Novo Serviço</h1>
+        <hr />
+        
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            
+            <!-- Campo: Nome do Serviço -->
+            <div class="mb-3">
+                <label asp-for="Servico.NomeServico" class="form-label">Nome do Serviço *</label>
+                <input asp-for="Servico.NomeServico" class="form-control" 
+                       placeholder="Ex: Banho Completo, Tosa Higiênica, Consulta Veterinária..." />
+                <span asp-validation-for="Servico.NomeServico" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Descrição -->
+            <div class="mb-3">
+                <label asp-for="Servico.Descricao" class="form-label">Descrição</label>
+                <textarea asp-for="Servico.Descricao" class="form-control" rows="3" 
+                          placeholder="Descreva o que está incluído no serviço..."></textarea>
+                <span asp-validation-for="Servico.Descricao" class="text-danger"></span>
+                <div class="form-text">Informações sobre o que o serviço inclui</div>
+            </div>
+            
+            <!-- Campo: Preço -->
+            <div class="mb-3">
+                <label asp-for="Servico.Preco" class="form-label">Preço (€) *</label>
+                <div class="input-group">
+                    <span class="input-group-text">€</span>
+                    <input asp-for="Servico.Preco" type="number" step="0.01" class="form-control" 
+                           placeholder="Ex: 25.00" />
+                </div>
+                <span asp-validation-for="Servico.Preco" class="text-danger"></span>
+                <div class="form-text">Preço base do serviço em euros</div>
+            </div>
+            
+            <!-- Campo: Duração -->
+            <div class="mb-3">
+                <label asp-for="Servico.DuracaoMinutos" class="form-label">Duração (minutos) *</label>
+                <div class="input-group">
+                    <input asp-for="Servico.DuracaoMinutos" type="number" class="form-control" 
+                           placeholder="Ex: 30, 60, 90..." />
+                    <span class="input-group-text">min</span>
+                </div>
+                <span asp-validation-for="Servico.DuracaoMinutos" class="text-danger"></span>
+                <div class="form-text">Tempo estimado para completar o serviço</div>
+            </div>
+            
+            <hr />
+            
+            <!-- Botões de ação -->
+            <div class="d-flex justify-content-between">
+                <a asp-page="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Cadastrar Serviço
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

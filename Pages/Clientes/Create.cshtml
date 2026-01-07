@@ -1,0 +1,89 @@
+@* =====================================================
+    VIEW: Clientes/Create.cshtml
+    
+    Responsabilidade:
+    - Exibir formulário para criar novo cliente
+    - Validar campos obrigatórios
+    - Enviar dados para o servidor
+    
+    Campos:
+    - Nome (obrigatório)
+    - Apelido (obrigatório)
+    - Email (obrigatório, validado como email)
+    - Telefone (obrigatório, validado como telefone)
+    ===================================================== *@
+
+@page
+@model PetShop.Pages.Clientes.CreateModel
+
+@{
+    ViewData["Title"] = "Criar Novo Cliente";
+    Layout = "_AdminLayout";
+}
+
+<div class="mb-4">
+    <h1>👥 Criar Novo Cliente</h1>
+    <p class="text-muted">Preencha os campos abaixo para registar um novo cliente</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card border-0">
+            <div class="card-header">
+                <h5 class="mb-0">📝 Formulário de Registo</h5>
+            </div>
+            <div class="card-body">
+                <!-- Formulário de Criação -->
+                <form method="post">
+                    <!-- Resumo de erros de validação -->
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <!-- Campo: Nome -->
+                    <div class="mb-3">
+                        <label asp-for="Cliente.Nome" class="form-label"></label>
+                        <input asp-for="Cliente.Nome" class="form-control" placeholder="Ex: João" />
+                        <span asp-validation-for="Cliente.Nome" class="text-danger"></span>
+                    </div>
+
+                    <!-- Campo: Apelido -->
+                    <div class="mb-3">
+                        <label asp-for="Cliente.Apelido" class="form-label"></label>
+                        <input asp-for="Cliente.Apelido" class="form-control" placeholder="Ex: Silva" />
+                        <span asp-validation-for="Cliente.Apelido" class="text-danger"></span>
+                    </div>
+
+                    <!-- Campo: Email -->
+                    <div class="mb-3">
+                        <label asp-for="Cliente.Email" class="form-label"></label>
+                        <input asp-for="Cliente.Email" type="email" class="form-control" placeholder="Ex: joao@email.com" />
+                        <span asp-validation-for="Cliente.Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Campo: Telefone -->
+                    <div class="mb-3">
+                        <label asp-for="Cliente.Telefone" class="form-label"></label>
+                        <input asp-for="Cliente.Telefone" type="tel" class="form-control" placeholder="Ex: +351912345678" />
+                        <span asp-validation-for="Cliente.Telefone" class="text-danger"></span>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Botões de Ação -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-fill">
+                            <strong>✓ Criar Cliente</strong>
+                        </button>
+                        <a asp-page="Index" class="btn btn-outline-secondary flex-fill">
+                            ← Voltar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts de Validação -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

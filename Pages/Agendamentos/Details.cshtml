@@ -1,0 +1,174 @@
+@page
+@model PetShop.Pages.Agendamentos.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalhes do Agendamento";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h1>📅 Detalhes do Agendamento</h1>
+        <hr />
+        
+        <!-- Card principal com informações do agendamento -->
+        <div class="card mb-4">
+            <div class="card-header bg-@(Model.Agendamento.Status switch {
+                "Agendado" => "primary",
+                "Confirmado" => "info",
+                "Concluído" => "success",
+                "Cancelado" => "danger",
+                _ => "secondary"
+            }) text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Agendamento #@Model.Agendamento.AgendamentoID</h4>
+                    <h5 class="mb-0">
+                        <span class="badge bg-light text-dark">@Model.Agendamento.Status</span>
+                    </h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="text-primary">📅 Informações do Agendamento</h5>
+                        <dl class="row">
+                            <dt class="col-sm-5">Data</dt>
+                            <dd class="col-sm-7"><strong>@Model.Agendamento.DataHora.ToString("dd/MM/yyyy")</strong></dd>
+                            
+                            <dt class="col-sm-5">Hora</dt>
+                            <dd class="col-sm-7"><strong>@Model.Agendamento.DataHora.ToString("HH:mm")</strong></dd>
+                            
+                            <dt class="col-sm-5">Serviço</dt>
+                            <dd class="col-sm-7">@(Model.Agendamento.Servico?.NomeServico ?? "N/A")</dd>
+                            
+                            <dt class="col-sm-5">Duração Prevista</dt>
+                            <dd class="col-sm-7">@(Model.Agendamento.Servico?.DuracaoMinutos ?? 0) minutos</dd>
+                            
+                            <dt class="col-sm-5">Preço</dt>
+                            <dd class="col-sm-7">
+                                <strong class="text-success fs-5">@(Model.Agendamento.PrecoFinal?.ToString("C") ?? "A definir")</strong>
+                            </dd>
+                        </dl>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5 class="text-success">🐾 Animal e Cliente</h5>
+                        <dl class="row">
+                            <dt class="col-sm-5">Animal</dt>
+                            <dd class="col-sm-7">
+                                <strong>@(Model.Agendamento.Animal?.Nome ?? "N/A")</strong><br/>
+                                <small class="text-muted">@(Model.Agendamento.Animal?.Especie ?? "N/A") - @(Model.Agendamento.Animal?.Raca ?? "N/A")</small>
+                            </dd>
+                            
+                            <dt class="col-sm-5">Proprietário</dt>
+                            <dd class="col-sm-7">@(Model.Agendamento.Animal?.Cliente?.NomeCompleto ?? "N/A")</dd>
+                            
+                            <dt class="col-sm-5">Email</dt>
+                            <dd class="col-sm-7">
+                                <a href="mailto:@(Model.Agendamento.Animal?.Cliente?.Email ?? "")">@(Model.Agendamento.Animal?.Cliente?.Email ?? "N/A")</a>
+                            </dd>
+                            
+                            <dt class="col-sm-5">Telefone</dt>
+                            <dd class="col-sm-7">
+                                <a href="tel:@(Model.Agendamento.Animal?.Cliente?.Telefone ?? "")">@(Model.Agendamento.Animal?.Cliente?.Telefone ?? "N/A")</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                
+                <hr />
+                
+                <!-- Informações do técnico -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="text-warning">👨‍⚕️ Técnico Responsável</h5>
+                        @if (Model.Agendamento.Tecnico != null)
+                        {
+                            <dl class="row">
+                                <dt class="col-sm-2">Nome</dt>
+                                <dd class="col-sm-4">@Model.Agendamento.Tecnico.NomeCompleto</dd>
+                                
+                                <dt class="col-sm-2">Especialização</dt>
+                                <dd class="col-sm-4">
+                                    <span class="badge bg-info">@Model.Agendamento.Tecnico.Especializacao</span>
+                                </dd>
+                            </dl>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Técnico ainda não foi atribuído a este agendamento.</p>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Observações -->
+                @if (!string.IsNullOrEmpty(Model.Agendamento.Observacoes))
+                {
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="text-info">📝 Observações</h5>
+                            <div class="alert alert-info">
+                                @Model.Agendamento.Observacoes
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+                <hr />
+                
+                <!-- Informações de auditoria -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <small class="text-muted">
+                            <strong>Criado em:</strong> @Model.Agendamento.DataCriacao.ToString("dd/MM/yyyy HH:mm")
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Links para entidades relacionadas -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">🔗 Links Relacionados</h5>
+                    </div>
+                    <div class="card-body">
+                        <a asp-page="/Animais/Details" asp-route-id="@Model.Agendamento.AnimalID" class="btn btn-outline-primary me-2">
+                            <i class="bi bi-eye"></i> Ver Detalhes do Animal
+                        </a>
+                        <a asp-page="/Clientes/Details" asp-route-id="@Model.Agendamento.Animal?.ClienteID" class="btn btn-outline-success me-2">
+                            <i class="bi bi-person"></i> Ver Detalhes do Cliente
+                        </a>
+                        <a asp-page="/Servicos/Details" asp-route-id="@Model.Agendamento.ServicoID" class="btn btn-outline-info me-2">
+                            <i class="bi bi-gear"></i> Ver Detalhes do Serviço
+                        </a>
+                        @if (Model.Agendamento.TecnicoID.HasValue)
+                        {
+                            <a asp-page="/Tecnicos/Details" asp-route-id="@Model.Agendamento.TecnicoID" class="btn btn-outline-warning">
+                                <i class="bi bi-person-badge"></i> Ver Detalhes do Técnico
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Botões de ação -->
+        <div class="d-flex justify-content-between mb-4">
+            <a asp-page="./Index" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar à Lista
+            </a>
+            <div>
+                <a asp-page="./Edit" asp-route-id="@Model.Agendamento.AgendamentoID" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a asp-page="./Delete" asp-route-id="@Model.Agendamento.AgendamentoID" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Eliminar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1987 @@
+/* ============================================================================
+   SITE.CSS - Estilos Personalizados da Aplicação PetShop
+   ============================================================================
+   
+   Tema: PetShop Branco e Castanho
+   Design: Limpo, moderno e acolhedor
+   
+   Este ficheiro contém todos os estilos CSS customizados da aplicação.
+   É carregado após o Bootstrap em todas as páginas.
+   
+   ============================================================================
+   ALTERAÇÕES REALIZADAS (05/01/2026):
+   ----------------------------------------------------------------------------
+   1. MUDANÇA DE TEMA: De "Wine Cellar" (vinho/dourado/escuro) para 
+      "Branco e Castanho" (fundo claro com acentos castanhos)
+   
+   2. CORES ALTERADAS:
+      - Fundo principal: De #0D0D0D (preto) para #FAFAFA (branco suave)
+      - Cor primária: De #8B3A42 (vinho) para #8B4513 (castanho sela)
+      - Cor de destaque: De #D4AF37 (dourado) para #A0522D (castanho siena)
+      - Texto principal: De #FFFFFF (branco) para #2D2D2D (cinza escuro)
+      - Cards: De #1A1A1A (cinza escuro) para #FFFFFF (branco)
+   
+   3. CONFIGURAÇÃO DE PÁGINA INICIAL:
+      - Ficheiro: Properties/launchSettings.json
+      - Adicionado "launchUrl": "Portal" para abrir na página do utilizador
+   
+   4. REDIRECIONAMENTO DA RAIZ:
+      - Ficheiro: Pages/Index.cshtml.cs
+      - OnGet() agora redireciona para /Portal/Index automaticamente
+      - Quando o utilizador acede a http://localhost:5234/ é redirecionado
+        para a página do Portal do cliente
+   ============================================================================
+   
+   Organização do ficheiro:
+   1. VARIÁVEIS CSS (:root) - Cores, fontes e espaçamentos
+   2. ESTRUTURA BASE - Body, main-content, footer
+   3. TIPOGRAFIA - Títulos, textos, links
+   4. NAVBAR - Menu de navegação público
+   5. PORTAL - Páginas do portal do cliente
+   6. CARDS & FORMULÁRIOS - Componentes reutilizáveis
+   7. TABELAS - Estilos para listagens
+   8. PAGINAÇÃO - Navegação entre páginas
+   9. LOGIN - Página de autenticação
+   10. ADMIN LAYOUT - Área de administração
+   11. RESPONSIVO - Media queries para mobile
+   
+   Fontes utilizadas:
+   - Playfair Display: Títulos (serifada, elegante)
+   - Lato: Texto geral (sem serifa, legível)
+   
+   Cores principais (NOVO TEMA):
+   - Brown (#8B4513): Cor primária castanha
+   - Sienna (#A0522D): Acentos e destaques
+   - White backgrounds: Tons de branco e creme
+============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+
+/* ============================================================================
+   1. VARIÁVEIS CSS
+   Define todas as cores e valores reutilizáveis
+   
+   ALTERAÇÃO: Todas as cores foram atualizadas para o tema branco e castanho
+============================================================================ */
+:root {
+    /* ----- Cores Principais (Castanho #4A3832) ----- */
+    /* Gradiente: #4A3832 -> #6B5248 -> #7D6458 */
+    --brown: #4A3832;           /* Castanho chocolate - cor principal */
+    --brown-dark: #3A2822;      /* Castanho escuro (hover) */
+    --brown-light: #6B5248;     /* Castanho médio */
+    --brown-lighter: #7D6458;   /* Castanho claro */
+    
+    /* ----- Cores de Destaque (Laranja #F89900) ----- */
+    /* NOVO: Laranja para títulos e destaques */
+    --orange: #F89900;          /* Laranja principal */
+    --orange-light: #FFAD33;    /* Laranja claro */
+    --orange-dark: #D68200;     /* Laranja escuro */
+    
+    /* ----- Cores de Destaque (Mantidos para compatibilidade) ----- */
+    --accent: #F89900;          /* Laranja - destaques */
+    --accent-light: #FFAD33;    /* Laranja claro */
+    --accent-dark: #D68200;     /* Laranja escuro */
+    
+    /* ----- Cores de Fundo ----- */
+    /* ALTERADO: De tons escuros para tons claros */
+    --bg-light: #FAFAFA;        /* Fundo principal (quase branco) */
+    --bg-card: #FFFFFF;         /* Fundo de cards (branco puro) */
+    --bg-input: #F5F5F5;        /* Fundo de inputs (cinza muito claro) */
+    --bg-hover: #F0EDE8;        /* Fundo ao passar mouse (creme) */
+    
+    /* ----- Cores de Texto ----- */
+    /* ALTERADO: De branco para tons escuros */
+    --text-primary: #2D2D2D;    /* Texto principal (cinza escuro) */
+    --text-secondary: #4A4A4A;  /* Texto secundário */
+    --text-muted: #7A7A7A;      /* Texto menos importante */
+    
+    /* ----- Bordas ----- */
+    /* ALTERADO: Bordas mais suaves para tema claro */
+    --border: #E0D6CC;                    /* Borda padrão (bege) */
+    --border-brown: rgba(139, 69, 19, 0.3); /* Borda castanha */
+    
+    /* ----- Cores de Estado (mantidas) ----- */
+    --success: #4CAF50;  /* Verde - Sucesso */
+    --danger: #E53935;   /* Vermelho - Erro/Perigo */
+    --info: #42A5F5;     /* Azul - Informação */
+    --warning: #FFB300;  /* Amarelo - Aviso */
+    
+    /* ----- Manter compatibilidade com nomes antigos ----- */
+    /* Aliases para facilitar a transição */
+    --wine: var(--brown);
+    --wine-dark: var(--brown-dark);
+    --wine-light: var(--brown-light);
+    --gold: var(--accent);
+    --gold-light: var(--accent-light);
+    --gold-dark: var(--accent-dark);
+    --bg-dark: var(--bg-light);
+    --border-gold: var(--border-brown);
+}
+
+/* ============================================================================
+   2. ESTRUTURA BASE
+   Layout da página com sticky footer
+   
+   ALTERAÇÃO: Cores de fundo atualizadas para o tema claro
+============================================================================ */
+
+/* Garante que html e body ocupam 100% da altura */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Flexbox para sticky footer */
+/* ALTERADO: background-color de escuro para claro */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background-color: var(--bg-light);
+    color: var(--text-secondary);
+}
+
+/* Área de conteúdo cresce para empurrar footer para baixo */
+.main-content {
+    flex: 1 0 auto;
+}
+
+/* Footer fixo no fundo */
+/* ALTERADO: Footer com faixa castanha no topo */
+.site-footer {
+    flex-shrink: 0;
+    background-color: var(--bg-card);
+    border-top: 4px solid var(--brown);
+    padding: 1.25rem 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+/* Faixa decorativa castanha no footer */
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brown-dark), var(--brown), var(--accent-light), var(--brown), var(--brown-dark));
+}
+
+.site-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-footer span:first-child {
+    font-family: 'ADLaM Display', cursive;
+    color: var(--brown);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.site-footer span:last-child {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ============================================================================
+   3. TIPOGRAFIA
+   Estilos para títulos e textos
+   
+   ALTERAÇÃO: Cores de títulos e links atualizadas para castanho
+============================================================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'ADLaM Display', cursive;
+    color: var(--orange);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--brown);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--accent-light);
+}
+
+small, .small {
+    color: var(--text-muted);
+}
+
+/* ============================================================================
+   4. NAVBAR
+   Menu de navegação público
+   
+   ALTERAÇÃO: Navbar com fundo castanho #4A3832
+============================================================================ */
+.navbar {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%) !important;
+    border-bottom: none;
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.navbar > .container {
+    padding: 1rem 1.5rem;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'ADLaM Display', cursive;
+    font-size: 1.75rem;
+    color: var(--orange) !important;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.75rem 0;
+}
+
+.navbar-brand:hover {
+    color: var(--orange-light) !important;
+}
+
+.brand-icon {
+    font-size: 2rem;
+}
+
+/* ALTERADO: Texto da marca laranja */
+.brand-text {
+    color: var(--orange);
+    background: none;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: var(--orange);
+    background-clip: unset;
+}
+
+/* ALTERADO: Cores dos links do navbar para laranja */
+.nav-link {
+    color: var(--orange) !important;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0.25rem;
+    padding: 0.75rem 1.25rem !important;
+    border-radius: 6px;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link i {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.nav-link:hover {
+    color: var(--orange-light) !important;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-link:hover i {
+    opacity: 1;
+}
+
+/* CTA Button in Navbar */
+/* ALTERADO: Botão laranja na navbar */
+.nav-link-cta {
+    background: var(--orange);
+    color: #fff !important;
+    border: 2px solid var(--orange);
+    margin-left: 0.5rem;
+    font-weight: 600;
+}
+
+.nav-link-cta:hover {
+    background: var(--orange-light);
+    color: #fff !important;
+    border-color: var(--orange-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(248, 153, 0, 0.3);
+}
+
+/* Navbar Toggler (Mobile) */
+.navbar-toggler {
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.navbar-toggler-icon {
+    width: 1.2em;
+    height: 1.2em;
+    filter: invert(1);
+}
+
+/* Navbar Collapse for Mobile */
+.navbar-collapse {
+    padding: 0.5rem 0;
+}
+
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: linear-gradient(135deg, #3A2822 0%, #4A3832 100%);
+        border-radius: 8px;
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .navbar-nav {
+        gap: 0.25rem;
+    }
+    
+    .nav-link {
+        padding: 0.75rem 1rem !important;
+        border-radius: 6px;
+    }
+    
+    .nav-link-cta {
+        margin: 0.5rem 0;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    .nav-link-admin {
+        margin-top: 0.5rem;
+        justify-content: center;
+    }
+    
+    .dropdown-menu {
+        border: none;
+        box-shadow: none;
+        background-color: rgba(0, 0, 0, 0.2);
+        margin: 0.5rem 0;
+    }
+}
+
+/* ============================================================================
+   5. CARDS
+   Componentes de card reutilizáveis
+   
+   ALTERAÇÃO: Fundo branco com sombras suaves
+============================================================================ */
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-color: var(--brown);
+}
+
+/* ALTERADO: Header do card com gradiente castanho e títulos brancos */
+.card-header {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%);
+    border-bottom: 1px solid var(--brown-dark);
+    padding: 1rem 1.25rem;
+    color: #fff;
+}
+
+.card-header h1, .card-header h2, .card-header h3, 
+.card-header h4, .card-header h5, .card-header h6 {
+    margin-bottom: 0;
+    color: #fff;
+}
+
+.card-body {
+    padding: 1.25rem;
+    color: var(--text-secondary);
+}
+
+.card-title {
+    color: var(--orange);
+    font-family: 'ADLaM Display', cursive;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Título do card dentro do header - branco */
+.card-header .card-title {
+    color: #fff;
+}
+
+.card-text {
+    color: var(--text-secondary);
+}
+
+/* Card com borda lateral castanha */
+.card-accent {
+    border-left: 4px solid var(--brown);
+}
+
+/* Card com destaque castanho no hover */
+.card:hover .card-header {
+    background: linear-gradient(135deg, var(--brown-light) 0%, var(--brown) 100%);
+}
+
+/* ============================================================================
+   6. BUTTONS
+   Estilos de botões
+   
+   ALTERAÇÃO: Botão primário agora é castanho
+============================================================================ */
+.btn {
+    border-radius: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.2s;
+    border-width: 2px;
+}
+
+/* ALTERADO: De vinho para castanho */
+.btn-primary {
+    background-color: var(--brown);
+    border-color: var(--brown);
+    color: #fff;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--brown-dark);
+    border-color: var(--accent-light);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(139, 69, 19, 0.3);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--text-muted);
+    color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--text-muted);
+    border-color: var(--text-muted);
+    color: #fff;
+}
+
+.btn-info {
+    background-color: var(--orange);
+    border-color: var(--orange);
+    color: #fff;
+}
+
+.btn-info:hover {
+    background-color: var(--orange-dark);
+    border-color: var(--orange-dark);
+    color: #fff;
+}
+
+.btn-success {
+    background-color: #27AE60;
+    border-color: #27AE60;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background-color: #1E8449;
+    border-color: #1E8449;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #C0392B;
+    border-color: #C0392B;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #A93226;
+    border-color: #A93226;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: var(--orange);
+    border-color: var(--orange);
+    color: #fff;
+}
+
+.btn-warning:hover {
+    background-color: var(--orange-dark);
+    border-color: var(--orange-dark);
+    color: #fff;
+}
+
+.btn-outline-primary {
+    border-color: var(--brown);
+    color: var(--brown);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--brown);
+    color: #fff;
+}
+
+.btn-outline-secondary {
+    border-color: var(--text-muted);
+    color: var(--text-secondary);
+}
+
+.btn-outline-success {
+    border-color: #27AE60;
+    color: #27AE60;
+}
+
+.btn-outline-success:hover {
+    background-color: #27AE60;
+    border-color: #27AE60;
+    color: #fff;
+}
+
+.btn-outline-info {
+    border-color: var(--orange);
+    color: var(--orange);
+}
+
+.btn-outline-info:hover {
+    background-color: var(--orange);
+    border-color: var(--orange);
+    color: #fff;
+}
+
+.btn-outline-warning {
+    border-color: var(--orange-light);
+    color: var(--orange-dark);
+}
+
+.btn-outline-warning:hover {
+    background-color: var(--orange-light);
+    border-color: var(--orange-light);
+    color: #fff;
+}
+
+.btn-outline-danger {
+    border-color: #C0392B;
+    color: #C0392B;
+}
+
+.btn-outline-danger:hover {
+    background-color: #C0392B;
+    border-color: #C0392B;
+    color: #fff;
+}
+
+/* ============================================================================
+   7. TABLES
+   Estilos de tabelas
+   
+   ALTERAÇÃO: Cores adaptadas ao tema claro
+============================================================================ */
+.table {
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+/* ALTERADO: Cabeçalho da tabela com gradiente castanho e texto laranja */
+/* Sobrescrever TODAS as classes do Bootstrap incluindo .table-dark */
+.table thead th,
+.table thead.table-dark th,
+.table-dark th,
+table thead th,
+table.table thead th,
+.table-striped thead th,
+.table-hover thead th,
+thead.table-dark th,
+thead th,
+.table > thead > tr > th,
+.table-dark > thead > tr > th {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%) !important;
+    border-bottom: 2px solid #3A2822 !important;
+    color: #F89900 !important;
+    font-family: 'ADLaM Display', cursive !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 1rem;
+    white-space: nowrap;
+}
+
+/* Forçar links dentro dos headers a serem laranja também */
+.table thead th a,
+.table thead.table-dark th a,
+thead.table-dark th a,
+thead th a,
+.table-dark th a,
+.table > thead > tr > th a,
+th a.text-white,
+th a.text-decoration-none {
+    color: #F89900 !important;
+    text-decoration: none !important;
+}
+
+.table thead th a:hover,
+thead th a:hover,
+th a.text-white:hover {
+    color: #FFAD33 !important;
+}
+
+.table tbody td {
+    border-color: var(--border);
+    vertical-align: middle;
+    padding: 0.875rem 1rem;
+    color: var(--text-secondary);
+}
+
+.table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(139, 69, 19, 0.03);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(139, 69, 19, 0.06);
+    border-left: 3px solid var(--brown);
+}
+
+/* Linha selecionada/ativa */
+.table tbody tr.table-active {
+    background-color: rgba(139, 69, 19, 0.1);
+    border-left: 3px solid var(--brown);
+}
+
+/* ============================================================================
+   8. FORMS
+   Estilos de formulários
+   
+   ALTERAÇÃO: Inputs com fundo claro e bordas castanhas no focus
+============================================================================ */
+.form-control, .form-select {
+    background-color: var(--bg-input);
+    border: 2px solid var(--border);
+    color: var(--text-primary);
+    padding: 0.625rem 0.875rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #fff;
+    border-color: var(--brown);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-label {
+    color: var(--orange);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-text {
+    color: var(--text-muted);
+}
+
+.form-check-input {
+    background-color: var(--bg-input);
+    border-color: var(--border);
+}
+
+.form-check-input:checked {
+    background-color: var(--brown);
+    border-color: var(--brown);
+}
+
+.form-check-label {
+    color: var(--text-secondary);
+}
+
+/* Input validation */
+.is-invalid {
+    border-color: var(--danger) !important;
+}
+
+.invalid-feedback {
+    color: var(--danger);
+}
+
+.is-valid {
+    border-color: var(--success) !important;
+}
+
+/* ============================================================================
+   9. JUMBOTRON
+   Secção de destaque
+   
+   ALTERAÇÃO: Gradiente com tons castanhos suaves
+============================================================================ */
+.jumbotron {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(139, 69, 19, 0.08) 100%);
+    border: 2px solid var(--border-brown);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.jumbotron h1, .jumbotron h2 {
+    color: var(--brown);
+}
+
+.jumbotron p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* ============================================================================
+   10. BADGES
+   Etiquetas e badges
+============================================================================ */
+.badge {
+    font-weight: 600;
+    padding: 0.4em 0.75em;
+    font-size: 0.8rem;
+}
+
+.badge.bg-primary, .bg-primary {
+    background-color: var(--brown) !important;
+}
+
+.badge.bg-success, .bg-success {
+    background-color: var(--success) !important;
+}
+
+.badge.bg-danger, .bg-danger {
+    background-color: var(--danger) !important;
+}
+
+.badge.bg-warning, .bg-warning {
+    background-color: var(--warning) !important;
+    color: #000 !important;
+}
+
+.badge.bg-info, .bg-info {
+    background-color: var(--info) !important;
+}
+
+.badge.bg-secondary, .bg-secondary {
+    background-color: #6c757d !important;
+}
+
+/* ============================================================================
+   11. ALERTS
+   Mensagens de alerta
+============================================================================ */
+.alert {
+    border-radius: 8px;
+    border-width: 2px;
+    padding: 1rem 1.25rem;
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-color: var(--success);
+    color: #2E7D32;
+}
+
+.alert-danger {
+    background-color: rgba(229, 57, 53, 0.1);
+    border-color: var(--danger);
+    color: #C62828;
+}
+
+.alert-warning {
+    background-color: rgba(255, 179, 0, 0.1);
+    border-color: var(--warning);
+    color: #F57F17;
+}
+
+.alert-info {
+    background-color: rgba(66, 165, 245, 0.1);
+    border-color: var(--info);
+    color: #1565C0;
+}
+
+/* ============================================================================
+   12. PAGINATION
+   Navegação entre páginas
+   
+   ALTERAÇÃO: Cores adaptadas ao tema claro
+============================================================================ */
+.page-link {
+    background-color: var(--bg-card);
+    border-color: var(--border);
+    color: var(--text-secondary);
+    padding: 0.5rem 0.875rem;
+}
+
+.page-link:hover {
+    background-color: var(--bg-hover);
+    border-color: var(--brown);
+    color: var(--brown);
+}
+
+.page-item.active .page-link {
+    background-color: var(--brown);
+    border-color: var(--brown);
+    color: #fff;
+}
+
+.page-item.disabled .page-link {
+    background-color: var(--bg-input);
+    border-color: var(--border);
+    color: var(--text-muted);
+}
+
+/* ============================================================================
+   13. DESCRIPTION LISTS
+   Listas de descrição
+============================================================================ */
+dl {
+    margin-bottom: 1rem;
+}
+
+dt {
+    color: var(--orange);
+    font-weight: 600;
+}
+
+dd {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+/* ============================================================================
+   14. LIST GROUPS
+   Grupos de lista
+============================================================================ */
+.list-group-item {
+    background-color: var(--bg-card);
+    border-color: var(--border);
+    color: var(--text-secondary);
+}
+
+.list-group-item:hover {
+    background-color: var(--bg-hover);
+}
+
+/* ============================================================================
+   15. UTILITIES
+   Classes utilitárias
+============================================================================ */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-white {
+    color: var(--text-primary) !important;
+}
+
+.text-primary {
+    color: var(--brown) !important;
+}
+
+.text-success {
+    color: var(--success) !important;
+}
+
+.text-danger {
+    color: var(--danger) !important;
+}
+
+.text-warning {
+    color: var(--warning) !important;
+}
+
+.text-info {
+    color: var(--info) !important;
+}
+
+.bg-white {
+    background-color: var(--bg-card) !important;
+}
+
+.bg-light {
+    background-color: var(--bg-hover) !important;
+}
+
+.border {
+    border-color: var(--border) !important;
+}
+
+.border-bottom {
+    border-bottom-color: var(--border) !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+}
+
+/* ============================================================================
+   16. HORIZONTAL RULES
+============================================================================ */
+hr {
+    border-color: var(--border);
+    opacity: 0.5;
+}
+
+/* ============================================================================
+   17. DROPDOWNS
+   Menus dropdown
+   
+   ALTERAÇÃO: Cores adaptadas ao tema claro
+============================================================================ */
+.dropdown-menu {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    min-width: 200px;
+}
+
+.dropdown-header {
+    color: var(--orange);
+    font-family: 'ADLaM Display', cursive;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.5rem 1rem;
+    margin-top: 0.25rem;
+}
+
+.dropdown-divider {
+    border-color: var(--border);
+    margin: 0.5rem 0;
+}
+
+.dropdown-item {
+    color: var(--text-secondary);
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.2s;
+}
+
+.dropdown-item i {
+    width: 18px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(139, 69, 19, 0.08);
+    color: var(--brown);
+}
+
+.dropdown-item:hover i {
+    color: var(--brown);
+}
+
+.dropdown-item:active, .dropdown-item:focus {
+    background-color: rgba(139, 69, 19, 0.15);
+    color: var(--text-primary);
+}
+
+/* ============================================================================
+   18. MODAL
+   Janelas modais
+============================================================================ */
+.modal-content {
+    background-color: var(--bg-card);
+    border-color: var(--border);
+}
+
+.modal-header {
+    border-bottom-color: var(--border);
+}
+
+.modal-footer {
+    border-top-color: var(--border);
+}
+
+.modal-title {
+    color: var(--orange);
+}
+
+/* ============================================================================
+   19. SCROLLBAR
+   Barra de scroll personalizada
+   
+   ALTERAÇÃO: Cores castanhas
+============================================================================ */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--brown);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--brown-dark);
+}
+
+/* ============================================================================
+   20. RESPONSIVE
+   Media queries para dispositivos móveis
+============================================================================ */
+@media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+    
+    .jumbotron {
+        padding: 2rem 1.5rem;
+    }
+    
+    .table {
+        font-size: 0.9rem;
+    }
+    
+    .btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .site-footer .container {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .table thead th {
+        font-size: 0.8rem;
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .table tbody td {
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+/* ============================================================================
+   PORTAL DO CLIENTE - Estilos Específicos
+   
+   ALTERAÇÃO: Cores do portal adaptadas ao tema branco e castanho
+============================================================================ */
+
+/* Hero Section */
+/* ALTERADO: Gradiente castanho */
+.portal-hero {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%);
+    padding: 4rem 0;
+    text-align: center;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 2rem;
+}
+
+.portal-hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: var(--orange);
+}
+
+.portal-hero .lead {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+}
+
+.portal-hero .btn {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    background-color: var(--orange);
+    color: #fff;
+    border-color: var(--orange);
+}
+
+.portal-hero .btn:hover {
+    background-color: var(--orange-light);
+    border-color: var(--orange-light);
+    color: #fff;
+}
+
+/* Service Cards - Portal */
+.service-card {
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--brown);
+}
+
+.service-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--orange);
+}
+
+.service-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--orange);
+    margin: 1rem 0 0.5rem;
+}
+
+.service-duration {
+    color: var(--text-muted);
+}
+
+/* Service Cards Full */
+.service-card-full {
+    border: 2px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.service-card-full:hover {
+    border-color: var(--brown);
+    transform: translateY(-5px);
+}
+
+.service-card-full .card-header {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%);
+    padding: 1.5rem;
+}
+
+.service-card-full .card-header h4,
+.service-card-full .card-header h5 {
+    color: var(--orange);
+}
+
+.service-icon-large {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.service-price-tag {
+    background-color: #fff;
+    color: var(--brown);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.service-card-full .card-footer {
+    background-color: var(--bg-hover);
+    border-top: 1px solid var(--border);
+    padding: 1.25rem;
+}
+
+/* Benefits Section */
+.benefits-section {
+    padding: 2rem 0;
+}
+
+.benefit-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--brown);
+    border-radius: 10px;
+    padding: 2rem 1.5rem;
+    height: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.benefit-card:hover {
+    border-color: var(--brown);
+    border-left-width: 4px;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(139, 69, 19, 0.15);
+}
+
+.benefit-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--orange);
+}
+
+.benefit-card h5 {
+    color: var(--orange);
+    margin-bottom: 0.75rem;
+}
+
+.benefit-card p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* CTA Section */
+.cta-section {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, var(--bg-card) 100%);
+    border: 2px solid var(--border-brown);
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.cta-section h3 {
+    color: var(--orange);
+}
+
+/* Booking Card */
+.booking-card {
+    border: 2px solid var(--border-brown);
+}
+
+.booking-card .card-header {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%);
+    padding: 2rem;
+}
+
+.booking-card .card-header h2 {
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.booking-card .card-header p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Fieldset styling */
+.fieldset-legend {
+    font-family: 'ADLaM Display', cursive;
+    font-size: 1.2rem;
+    color: var(--orange);
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+}
+
+fieldset {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: rgba(139, 69, 19, 0.03);
+}
+
+/* Portal Responsive */
+@media (max-width: 768px) {
+    .portal-hero {
+        padding: 3rem 1rem;
+    }
+    
+    .portal-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .portal-hero .lead {
+        font-size: 1.1rem;
+    }
+    
+    .service-icon-large {
+        font-size: 3rem;
+    }
+}
+
+/* ============================================================================
+   LOGIN / AUTHENTICATION PAGES
+   Páginas de autenticação
+   
+   ALTERAÇÃO: Cores adaptadas ao tema branco e castanho
+============================================================================ */
+
+/* Nav Link Login */
+.nav-link-login {
+    background-color: var(--orange);
+    border: 1px solid var(--orange);
+    color: #fff !important;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px;
+}
+
+.nav-link-login:hover {
+    background-color: var(--orange-light);
+    border-color: var(--orange-light);
+    color: #fff !important;
+}
+
+/* Nav Link User (logged in) */
+.nav-link-user {
+    color: var(--text-muted) !important;
+    font-size: 0.85rem;
+    cursor: default;
+}
+
+.nav-link-user i {
+    color: var(--success);
+}
+
+/* Login Container */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 2rem;
+}
+
+.login-card {
+    background-color: var(--bg-card);
+    border: 2px solid var(--border-brown);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 450px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.login-header {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.login-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.login-header h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+    color: #fff;
+}
+
+.login-header p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+.login-body {
+    padding: 2rem;
+}
+
+.login-body .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.login-body .form-control-lg {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+}
+
+.password-input {
+    position: relative;
+}
+
+.password-input .form-control {
+    padding-right: 3rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+}
+
+.password-toggle:hover {
+    color: var(--brown);
+}
+
+.login-footer {
+    padding: 1.5rem 2rem;
+    background-color: var(--bg-hover);
+    text-align: center;
+}
+
+.back-link {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.back-link:hover {
+    color: var(--brown);
+}
+
+/* Login Info Card */
+.login-info {
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 450px;
+}
+
+.info-card {
+    background-color: rgba(139, 69, 19, 0.08);
+    border: 1px solid var(--border-brown);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.info-card i {
+    color: var(--brown);
+    font-size: 1.5rem;
+    margin-top: 0.25rem;
+}
+
+/* Logout / Access Denied Containers */
+.logout-container,
+.access-denied-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    padding: 2rem;
+}
+
+.logout-card,
+.access-denied-card {
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 3rem;
+    max-width: 500px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.logout-icon,
+.access-denied-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    color: var(--brown);
+}
+
+.logout-card h2,
+.access-denied-card h2 {
+    margin-bottom: 0.5rem;
+}
+
+/* Login Responsive */
+@media (max-width: 576px) {
+    .login-card {
+        border-radius: 12px;
+    }
+    
+    .login-header {
+        padding: 2rem 1.5rem;
+    }
+    
+    .login-body {
+        padding: 1.5rem;
+    }
+    
+    .login-icon {
+        font-size: 3rem;
+    }
+}
+
+/* ============================================================================
+   ADMIN LAYOUT STYLES
+   Estilos da área de administração
+   
+   ALTERAÇÃO: Cores adaptadas ao tema branco e castanho
+============================================================================ */
+
+/* Admin Body */
+.admin-body {
+    background-color: var(--bg-light);
+}
+
+/* Admin Top Bar */
+.admin-topbar {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%);
+    padding: 0.5rem 1rem;
+    border-bottom: 2px solid var(--orange);
+}
+
+.admin-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-badge i {
+    margin-right: 0.5rem;
+}
+
+.admin-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.admin-user {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+}
+
+.admin-user i {
+    color: var(--accent-light);
+    margin-right: 0.35rem;
+}
+
+.admin-logout {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.admin-logout:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Admin Navbar */
+.admin-navbar {
+    background: linear-gradient(135deg, #4A3832 0%, #6B5248 50%, #7D6458 100%) !important;
+    border-bottom: 1px solid var(--brown-dark);
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.admin-navbar .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand-admin {
+    background-color: var(--brown);
+    color: #fff;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: 0.5rem;
+}
+
+/* Admin Nav Links */
+.admin-nav-link {
+    color: var(--orange) !important;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem !important;
+    border-radius: 6px;
+    margin: 0 0.15rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.admin-nav-link i {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.admin-nav-link:hover {
+    color: var(--orange-light) !important;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.admin-nav-link:hover i {
+    opacity: 1;
+}
+
+.admin-nav-link.active {
+    color: var(--orange-light) !important;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-bottom: 2px solid var(--orange);
+    border-radius: 6px 6px 0 0;
+}
+
+.admin-nav-link.active i {
+    opacity: 1;
+}
+
+/* Portal Link */
+.portal-link {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted) !important;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px;
+}
+
+.portal-link:hover {
+    border-color: var(--brown);
+    color: var(--brown) !important;
+    background-color: rgba(139, 69, 19, 0.08);
+}
+
+/* Admin Content */
+.admin-content {
+    min-height: calc(100vh - 180px);
+}
+
+.admin-content > .container-fluid {
+    max-width: 1600px;
+}
+
+/* Admin Breadcrumb */
+.admin-breadcrumb {
+    margin-bottom: 1.5rem;
+}
+
+.admin-breadcrumb .breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.admin-breadcrumb .breadcrumb-item a {
+    color: var(--text-muted);
+}
+
+.admin-breadcrumb .breadcrumb-item a:hover {
+    color: var(--brown);
+}
+
+.admin-breadcrumb .breadcrumb-item.active {
+    color: var(--text-secondary);
+}
+
+.admin-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    color: var(--text-muted);
+}
+
+/* Admin Footer */
+.admin-footer {
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Admin Page Headers */
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.admin-page-header h1 {
+    font-size: 1.75rem;
+    margin: 0;
+}
+
+/* Admin Stats Cards */
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-stat-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.admin-stat-card:hover {
+    border-color: var(--brown);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.admin-stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.admin-stat-icon.wine {
+    background-color: rgba(139, 69, 19, 0.15);
+    color: var(--brown);
+}
+
+.admin-stat-icon.gold {
+    background-color: rgba(205, 133, 63, 0.15);
+    color: var(--accent-light);
+}
+
+.admin-stat-icon.success {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: var(--success);
+}
+
+.admin-stat-icon.info {
+    background-color: rgba(66, 165, 245, 0.15);
+    color: var(--info);
+}
+
+.admin-stat-info h3 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--text-primary);
+    font-family: 'Lato', sans-serif;
+}
+
+.admin-stat-info p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* Admin Action Buttons */
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.admin-actions .btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+/* Admin Tables */
+.admin-table-container {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Admin Responsive */
+@media (max-width: 991px) {
+    .admin-topbar {
+        padding: 0.5rem;
+    }
+    
+    .admin-badge {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    .admin-topbar-right {
+        gap: 0.75rem;
+    }
+    
+    .admin-user {
+        display: none;
+    }
+    
+    .admin-nav-link {
+        padding: 0.6rem 0.75rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-topbar-left {
+        display: none;
+    }
+    
+    .brand-admin {
+        display: none;
+    }
+}
+
+/* ============================================================================
+   ELEMENTOS DECORATIVOS CASTANHOS
+   Classes utilitárias para adicionar detalhes castanhos
+============================================================================ */
+
+/* Divisor horizontal castanho */
+.divider-brown {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--brown), transparent);
+    border: none;
+    margin: 2rem 0;
+}
+
+/* Borda superior castanha */
+.border-top-brown {
+    border-top: 3px solid var(--brown) !important;
+}
+
+/* Borda inferior castanha */
+.border-bottom-brown {
+    border-bottom: 3px solid var(--brown) !important;
+}
+
+/* Borda esquerda castanha (destaque) */
+.border-left-brown {
+    border-left: 4px solid var(--brown) !important;
+}
+
+/* Texto com destaque castanho */
+.text-brown {
+    color: var(--brown) !important;
+}
+
+/* Fundo castanho suave */
+.bg-brown-light {
+    background-color: rgba(139, 69, 19, 0.08) !important;
+}
+
+/* Fundo castanho sólido */
+.bg-brown {
+    background-color: var(--brown) !important;
+    color: #fff !important;
+}
+
+/* Ícone circular com fundo castanho */
+.icon-circle-brown {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brown) 0%, var(--brown-dark) 100%);
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+/* Badge castanho */
+.badge-brown {
+    background-color: var(--brown);
+    color: #fff;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Sombra castanha no hover */
+.shadow-brown-hover:hover {
+    box-shadow: 0 8px 25px rgba(139, 69, 19, 0.2);
+}
+
+/* Underline decorativo castanho */
+.underline-brown {
+    position: relative;
+    display: inline-block;
+}
+
+.underline-brown::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--brown), var(--accent-light));
+    border-radius: 2px;
+}
+
+/* Secção com fundo gradiente castanho */
+.section-brown-gradient {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.05) 0%, rgba(139, 69, 19, 0.1) 100%);
+    border-top: 1px solid var(--border-brown);
+    border-bottom: 1px solid var(--border-brown);
+    padding: 3rem 0;
+}
+
+/* Títulos de secção com barra castanha */
+.section-title {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brown), var(--accent-light));
+    border-radius: 2px;
+}
+
+/* Título de secção centrado */
+.section-title-center {
+    text-align: center;
+}
+
+.section-title-center::after {
+    left: 50%;
+    transform: translateX(-50%);
+}

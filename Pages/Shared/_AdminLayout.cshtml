@@ -1,0 +1,172 @@
+@* ============================================================================
+    _ADMINLAYOUT.CSHTML - Layout para Área de Administração
+    ============================================================================
+    
+    Este é o layout exclusivo para páginas de administração (CRUD).
+    Só é visível para utilizadores autenticados como Admin.
+    
+    Diferenças do _Layout.cshtml:
+    - Barra superior indicando "MODO ADMINISTRAÇÃO"
+    - Menu horizontal com todas as secções de gestão
+    - Design mais escuro/profissional
+    - Breadcrumb para navegação
+    - Container-fluid (largura total)
+    
+    Páginas que usam este layout:
+    - Agendamentos (Index, Create, Edit, Details, Delete)
+    - Clientes (Index, Create, Edit, Details, Delete)
+    - Animais (Index, Create, Edit, Details, Delete)
+    - Serviços (Index, Create, Edit, Details, Delete)
+    - Técnicos (Index, Create, Edit, Details, Delete)
+    
+    Funcionalidades:
+    - Destaque visual da página atual no menu
+    - Nome do utilizador autenticado no topo
+    - Botão rápido para sair
+    - Link para ver o portal público
+============================================================================ *@
+
+@{
+    // Determinar qual página está ativa para destacar no menu
+    // Usa o RouteData para obter o nome da página atual
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? "";
+}
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    @* ===== META TAGS ===== *@
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    @* Título com prefixo "Admin" *@
+    <title>@ViewData["Title"] - Admin Peludos & Companhia</title>
+    
+    @* ===== CSS ===== *@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="admin-body">
+    @* ===== BARRA SUPERIOR DE ADMINISTRAÇÃO =====
+       Indica que o utilizador está na área de administração *@
+    <div class="admin-topbar">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                @* Lado esquerdo: Badge de modo admin *@
+                <div class="admin-topbar-left">
+                    <span class="admin-badge">
+                        <i class="fas fa-shield-alt"></i> MODO ADMINISTRAÇÃO
+                    </span>
+                </div>
+                @* Lado direito: Utilizador e logout *@
+                <div class="admin-topbar-right">
+                    <span class="admin-user">
+                        <i class="fas fa-user-circle"></i> @User.Identity?.Name
+                    </span>
+                    <a href="/Admin/Logout" class="admin-logout">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* ===== HEADER COM NAVEGAÇÃO ADMIN ===== *@
+    <header>
+        <nav class="navbar navbar-expand-lg admin-navbar">
+            <div class="container-fluid">
+                @* Logo com indicador "Admin" *@
+                <a class="navbar-brand" href="/Agendamentos">
+                    <img src="~/images/logopetshop.png" alt="Logo" height="30" class="d-inline-block align-text-top me-2" />
+                    <span class="brand-text">Peludos & Companhia</span>
+                    <span class="brand-admin">Admin</span>
+                </a>
+                
+                @* Botão hamburger para mobile *@
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="adminNavbar">
+                    @* ===== MENU PRINCIPAL DE ADMIN =====
+                       Cada item tem classe 'active' se for a página atual *@
+                    <ul class="navbar-nav me-auto">
+                        @* Link: Agendamentos *@
+                        <li class="nav-item">
+                            <a class="nav-link admin-nav-link @(currentPage.Contains("Agendamentos") ? "active" : "")" asp-page="/Agendamentos/Index">
+                                <i class="fas fa-calendar-check"></i> Agendamentos
+                            </a>
+                        </li>
+                        @* Link: Clientes *@
+                        <li class="nav-item">
+                            <a class="nav-link admin-nav-link @(currentPage.Contains("Clientes") ? "active" : "")" asp-page="/Clientes/Index">
+                                <i class="fas fa-users"></i> Clientes
+                            </a>
+                        </li>
+                        @* Link: Animais *@
+                        <li class="nav-item">
+                            <a class="nav-link admin-nav-link @(currentPage.Contains("Animais") ? "active" : "")" asp-page="/Animais/Index">
+                                <i class="fas fa-dog"></i> Animais
+                            </a>
+                        </li>
+                        @* Link: Serviços *@
+                        <li class="nav-item">
+                            <a class="nav-link admin-nav-link @(currentPage.Contains("Servicos") ? "active" : "")" asp-page="/Servicos/Index">
+                                <i class="fas fa-cut"></i> Serviços
+                            </a>
+                        </li>
+                        @* Link: Técnicos *@
+                        <li class="nav-item">
+                            <a class="nav-link admin-nav-link @(currentPage.Contains("Tecnicos") ? "active" : "")" asp-page="/Tecnicos/Index">
+                                <i class="fas fa-user-md"></i> Técnicos
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    @* Link para o Portal Público *@
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link portal-link" asp-page="/Portal/Index">
+                                <i class="fas fa-external-link-alt"></i> Ver Portal
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @* ===== ÁREA DE CONTEÚDO PRINCIPAL ===== *@
+    <main class="main-content admin-content">
+        <div class="container-fluid py-4">
+            @* Breadcrumb para navegação *@
+            <nav aria-label="breadcrumb" class="admin-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Agendamentos"><i class="fas fa-home"></i></a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+            
+            @* Conteúdo específico de cada página *@
+            @RenderBody()
+        </div>
+    </main>
+
+    @* ===== RODAPÉ ADMIN ===== *@
+    <footer class="admin-footer">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>🐾 Peludos & Companhia Admin Panel</span>
+                <span>© 2025 - Área Restrita</span>
+            </div>
+        </div>
+    </footer>
+
+    @* ===== SCRIPTS ===== *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

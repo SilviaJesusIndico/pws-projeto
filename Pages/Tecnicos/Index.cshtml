@@ -1,0 +1,197 @@
+@page
+@model PetShop.Pages.Tecnicos.IndexModel
+
+@{
+    ViewData["Title"] = "Gestão de Técnicos";
+    Layout = "_AdminLayout";
+}
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>👨‍⚕️ Gestão de Técnicos</h1>
+        <p class="text-muted">Funcionários e colaboradores da Peludos & Companhia</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <a asp-page="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Novo Técnico
+        </a>
+    </div>
+</div>
+
+<!-- Formulário de filtro -->
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="input-group">
+                <input type="text" 
+                       name="FiltroAtual" 
+                       value="@Model.FiltroAtual" 
+                       class="form-control" 
+                       placeholder="Pesquisar por nome, email ou especialização..." />
+                <button type="submit" class="btn btn-outline-secondary">
+                    <i class="bi bi-search"></i> Pesquisar
+                </button>
+                @if (!string.IsNullOrEmpty(Model.FiltroAtual))
+                {
+                    <a asp-page="./Index" class="btn btn-outline-danger">
+                        <i class="bi bi-x-circle"></i> Limpar
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="mostrarInativos" 
+                       name="MostrarInativos" value="true" 
+                       @(Model.MostrarInativos.GetValueOrDefault() ? "checked" : "")
+                       onchange="this.form.submit()" />
+                <label class="form-check-label" for="mostrarInativos">
+                    Mostrar técnicos/as inativos/as
+                </label>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Tabela de técnicos -->
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    <a asp-page="./Index" 
+                       asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "nome_desc" ? "" : "nome_desc")"
+                       asp-route-filtroAtual="@Model.FiltroAtual"
+                       asp-route-mostrarInativos="@Model.MostrarInativos"
+                       class="text-white text-decoration-none">
+                        Nome @(Model.OrdenacaoAtual == "nome_desc" ? "↓" : Model.OrdenacaoAtual == "" || Model.OrdenacaoAtual == null ? "↑" : "")
+                    </a>
+                </th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>
+                    <a asp-page="./Index" 
+                       asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "especializacao_desc" ? "especializacao" : "especializacao_desc")"
+                       asp-route-filtroAtual="@Model.FiltroAtual"
+                       asp-route-mostrarInativos="@Model.MostrarInativos"
+                       class="text-white text-decoration-none">
+                        Especialização @(Model.OrdenacaoAtual == "especializacao" ? "↑" : Model.OrdenacaoAtual == "especializacao_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Index" 
+                       asp-route-ordenacaoAtual="@(Model.OrdenacaoAtual == "data_desc" ? "data" : "data_desc")"
+                       asp-route-filtroAtual="@Model.FiltroAtual"
+                       asp-route-mostrarInativos="@Model.MostrarInativos"
+                       class="text-white text-decoration-none">
+                        Data Contratação @(Model.OrdenacaoAtual == "data" ? "↑" : Model.OrdenacaoAtual == "data_desc" ? "↓" : "")
+                    </a>
+                </th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tecnico in Model.Tecnicos)
+            {
+                <tr class="@(tecnico.Ativo ? "" : "table-secondary")">
+                    <td>@tecnico.NomeCompleto</td>
+                    <td>@tecnico.Email</td>
+                    <td>@tecnico.Telefone</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(tecnico.Especializacao))
+                        {
+                            <span class="badge bg-info">@tecnico.Especializacao</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">-</span>
+                        }
+                    </td>
+                    <td>@tecnico.DataContratacao.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <span class="badge bg-@(tecnico.Ativo ? "success" : "secondary")">
+                            @(tecnico.Ativo ? "Ativo/a" : "Inativo/a")
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a asp-page="./Details" asp-route-id="@tecnico.TecnicoID" class="btn btn-sm btn-info" title="Detalhes">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a asp-page="./Edit" asp-route-id="@tecnico.TecnicoID" class="btn btn-sm btn-dark" title="Editar">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a asp-page="./Delete" asp-route-id="@tecnico.TecnicoID" class="btn btn-sm btn-danger" title="Eliminar">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Controles de paginação -->
+@if (Model.Tecnicos.TotalPaginas > 1)
+{
+    <nav aria-label="Paginação">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.Tecnicos.HaPaginasAntes ? "" : "disabled")">
+                <a class="page-link" 
+                   asp-page="./Index" 
+                   asp-route-indexPagina="@(Model.Tecnicos.PaginaIndex - 1)"
+                   asp-route-ordenacaoAtual="@Model.OrdenacaoAtual"
+                   asp-route-filtroAtual="@Model.FiltroAtual"
+                   asp-route-mostrarInativos="@Model.MostrarInativos">
+                    Anterior
+                </a>
+            </li>
+            
+            @for (int i = 1; i <= Model.Tecnicos.TotalPaginas; i++)
+            {
+                <li class="page-item @(i == Model.Tecnicos.PaginaIndex ? "active" : "")">
+                    <a class="page-link" 
+                       asp-page="./Index" 
+                       asp-route-indexPagina="@i"
+                       asp-route-ordenacaoAtual="@Model.OrdenacaoAtual"
+                       asp-route-filtroAtual="@Model.FiltroAtual"
+                       asp-route-mostrarInativos="@Model.MostrarInativos">
+                        @i
+                    </a>
+                </li>
+            }
+            
+            <li class="page-item @(Model.Tecnicos.HaPaginasDepois ? "" : "disabled")">
+                <a class="page-link" 
+                   asp-page="./Index" 
+                   asp-route-indexPagina="@(Model.Tecnicos.PaginaIndex + 1)"
+                   asp-route-ordenacaoAtual="@Model.OrdenacaoAtual"
+                   asp-route-filtroAtual="@Model.FiltroAtual"
+                   asp-route-mostrarInativos="@Model.MostrarInativos">
+                    Próximo
+                </a>
+            </li>
+        </ul>
+    </nav>
+    
+    <p class="text-center text-muted">
+        Página @Model.Tecnicos.PaginaIndex de @Model.Tecnicos.TotalPaginas
+    </p>
+}
+
+@if (!Model.Tecnicos.Any())
+{
+    <div class="alert alert-info text-center" role="alert">
+        <i class="bi bi-info-circle"></i> Nenhum técnico encontrado. 
+        @if (!string.IsNullOrEmpty(Model.FiltroAtual))
+        {
+            <a asp-page="./Index" class="alert-link">Limpar filtro</a>
+        }
+        else
+        {
+            <a asp-page="./Create" class="alert-link">Adicionar o primeiro técnico</a>
+        }
+    </div>
+}

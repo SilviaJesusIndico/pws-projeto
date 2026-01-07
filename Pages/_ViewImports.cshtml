@@ -1,0 +1,18 @@
+﻿@* ============================================================================
+    _VIEWIMPORTS.CSHTML - Importações Globais para Razor Pages
+    ============================================================================
+    
+    Este ficheiro define diretivas @using e @addTagHelper que são aplicadas
+    automaticamente a TODAS as páginas Razor (.cshtml) da aplicação.
+    
+    Assim, não é necessário repetir estas importações em cada página.
+    
+    Conteúdo:
+    - @using PetShop: Permite usar classes do namespace principal
+    - @namespace PetShop.Pages: Define o namespace base das páginas
+    - @addTagHelper: Ativa os Tag Helpers do ASP.NET Core (asp-for, asp-page, etc.)
+============================================================================ *@
+
+@using PetShop
+@namespace PetShop.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

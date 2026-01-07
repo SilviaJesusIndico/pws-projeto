@@ -1,0 +1,97 @@
+@page
+@model PetShop.Pages.Tecnicos.EditModel
+
+@{
+    ViewData["Title"] = "Editar Técnico";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>✏️ Editar Técnico</h1>
+        <hr />
+        
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            
+            <input type="hidden" asp-for="Tecnico.TecnicoID" />
+            
+            <!-- Campo: Nome -->
+            <div class="mb-3">
+                <label asp-for="Tecnico.Nome" class="form-label">Nome *</label>
+                <input asp-for="Tecnico.Nome" class="form-control" />
+                <span asp-validation-for="Tecnico.Nome" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Apelido -->
+            <div class="mb-3">
+                <label asp-for="Tecnico.Apelido" class="form-label">Apelido *</label>
+                <input asp-for="Tecnico.Apelido" class="form-control" />
+                <span asp-validation-for="Tecnico.Apelido" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Email -->
+            <div class="mb-3">
+                <label asp-for="Tecnico.Email" class="form-label">Email *</label>
+                <input asp-for="Tecnico.Email" type="email" class="form-control" />
+                <span asp-validation-for="Tecnico.Email" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Telefone -->
+            <div class="mb-3">
+                <label asp-for="Tecnico.Telefone" class="form-label">Telefone</label>
+                <input asp-for="Tecnico.Telefone" type="tel" class="form-control" />
+                <span asp-validation-for="Tecnico.Telefone" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Especialização -->
+            <div class="mb-3">
+                <label asp-for="Tecnico.Especializacao" class="form-label">Especialização</label>
+                <select asp-for="Tecnico.Especializacao" class="form-select">
+                    <option value="">-- Selecione --</option>
+                    <option value="Banho e Tosa">Banho e Tosa</option>
+                    <option value="Veterinário/a">Veterinário/a</option>
+                    <option value="Adestrador/a">Adestrador/a</option>
+                    <option value="Grooming">Grooming</option>
+                    <option value="Estética Canina">Estética Canina</option>
+                    <option value="Assistente">Assistente</option>
+                    <option value="Tosquiador/a">Tosquiador/a</option>
+                    <option value="Geral">Geral</option>
+                </select>
+                <span asp-validation-for="Tecnico.Especializacao" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Data de Contratação -->
+            <div class="mb-3">
+                <label asp-for="Tecnico.DataContratacao" class="form-label">Data de Contratação *</label>
+                <input asp-for="Tecnico.DataContratacao" type="date" class="form-control" />
+                <span asp-validation-for="Tecnico.DataContratacao" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Ativo -->
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input asp-for="Tecnico.Ativo" class="form-check-input" type="checkbox" />
+                    <label asp-for="Tecnico.Ativo" class="form-check-label">Técnico Ativo</label>
+                </div>
+                <span asp-validation-for="Tecnico.Ativo" class="text-danger"></span>
+            </div>
+            
+            <hr />
+            
+            <!-- Botões de ação -->
+            <div class="d-flex justify-content-between">
+                <a asp-page="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Guardar Alterações
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

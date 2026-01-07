@@ -1,0 +1,187 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
+build_property.RootNamespace = PetShop
+build_property.RootNamespace = PetShop
+build_property.ProjectDir = C:\Users\Nat\Downloads\petshop\petshop\PetShop\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Nat\Downloads\petshop\petshop\PetShop
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Admin/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQWNjZXNzRGVuaWVkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Admin/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Admin/Logout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTG9nb3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Agendamentos/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdlbmRhbWVudG9zXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Agendamentos/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdlbmRhbWVudG9zXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Agendamentos/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdlbmRhbWVudG9zXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Agendamentos/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdlbmRhbWVudG9zXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Agendamentos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWdlbmRhbWVudG9zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Animais/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5pbWFpc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Animais/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5pbWFpc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Animais/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5pbWFpc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Animais/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5pbWFpc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Animais/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQW5pbWFpc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Clientes/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Clientes/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Clientes/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Clientes/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Clientes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xpZW50ZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Portal/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG9ydGFsXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Portal/Marcar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG9ydGFsXE1hcmNhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Portal/Servicos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUG9ydGFsXFNlcnZpY29zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Servicos/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2Vydmljb3NcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Servicos/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2Vydmljb3NcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Servicos/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2Vydmljb3NcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Servicos/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2Vydmljb3NcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Servicos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2Vydmljb3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Tecnicos/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjbmljb3NcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Tecnicos/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjbmljb3NcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Tecnicos/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjbmljb3NcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Tecnicos/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjbmljb3NcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Tecnicos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjbmljb3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nat/Downloads/petshop/petshop/PetShop/Pages/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-7mfxm5gy94

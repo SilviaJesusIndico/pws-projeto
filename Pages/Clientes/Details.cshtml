@@ -1,0 +1,85 @@
+@* =====================================================
+    VIEW: Clientes/Details.cshtml
+    
+    Responsabilidade:
+    - Exibir detalhes completos do cliente
+    - Mostrar lista de animais do cliente
+    - Mostrar informações de contacto
+    ===================================================== *@
+
+@page
+@model PetShop.Pages.Clientes.DetailsModel
+
+@{
+    ViewData["Title"] = "Detalhes do Cliente";
+    Layout = "_AdminLayout";
+}
+
+<h1>Detalhes do Cliente</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <!-- Informações Principais -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Informações Pessoais</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Nome Completo:</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Cliente.Nome) @Html.DisplayFor(model => model.Cliente.Apelido)</dd>
+
+                    <dt class="col-sm-3">Email:</dt>
+                    <dd class="col-sm-9">
+                        <a href="mailto:@Html.DisplayFor(model => model.Cliente.Email)">
+                            @Html.DisplayFor(model => model.Cliente.Email)
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-3">Telefone:</dt>
+                    <dd class="col-sm-9">
+                        <a href="tel:@Html.DisplayFor(model => model.Cliente.Telefone)">
+                            @Html.DisplayFor(model => model.Cliente.Telefone)
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-3">Data de Registo:</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Cliente.DataRegisto)</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- Lista de Animais -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Animais de Estimação</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Cliente.Animais != null && Model.Cliente.Animais.Count > 0)
+                {
+                    <ul class="list-group">
+                        @foreach (var animal in Model.Cliente.Animais)
+                        {
+                            <li class="list-group-item">
+                                <strong>@animal.Nome</strong> - @animal.Especie (@animal.Raca)
+                                <br />
+                                <small class="text-muted">Peso: @animal.Peso kg | Nascimento: @animal.DataNascimento.ToShortDateString()</small>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">Este cliente não tem nenhum animal registado.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Botões de Ação -->
+<div class="mt-4">
+    <a asp-page="Edit" asp-route-id="@Model.Cliente.ClienteID" class="btn btn-warning">Editar</a>
+    <a asp-page="Delete" asp-route-id="@Model.Cliente.ClienteID" class="btn btn-danger">Eliminar</a>
+    <a asp-page="Index" class="btn btn-secondary">Voltar à Lista</a>
+</div>

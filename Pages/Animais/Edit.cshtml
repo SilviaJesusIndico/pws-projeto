@@ -1,0 +1,103 @@
+@page
+@model PetShop.Pages.Animais.EditModel
+
+@{
+    ViewData["Title"] = "Editar Animal";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1>✏️ Editar Animal</h1>
+        <hr />
+        
+        <!-- Formulário de edição -->
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            
+            <!-- Campo hidden com o ID -->
+            <input type="hidden" asp-for="Animal.AnimalID" />
+            
+            <!-- Campo: Proprietário (Cliente) -->
+            <div class="mb-3">
+                <label asp-for="Animal.ClienteID" class="form-label">Proprietário *</label>
+                <select asp-for="Animal.ClienteID" class="form-select" required>
+                    <option value="">-- Selecione o proprietário --</option>
+                    @foreach (var cliente in Model.Clientes)
+                    {
+                        <option value="@cliente.ClienteID">@cliente.NomeCompleto - @cliente.Email</option>
+                    }
+                </select>
+                <span asp-validation-for="Animal.ClienteID" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Nome -->
+            <div class="mb-3">
+                <label asp-for="Animal.Nome" class="form-label">Nome do Animal *</label>
+                <input asp-for="Animal.Nome" class="form-control" />
+                <span asp-validation-for="Animal.Nome" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Espécie -->
+            <div class="mb-3">
+                <label asp-for="Animal.Especie" class="form-label">Espécie *</label>
+                <select asp-for="Animal.Especie" class="form-select" required>
+                    <option value="">-- Selecione a espécie --</option>
+                    <option value="Cão">Cão</option>
+                    <option value="Gato">Gato</option>
+                    <option value="Pássaro">Pássaro</option>
+                    <option value="Hamster">Hamster</option>
+                    <option value="Coelho">Coelho</option>
+                    <option value="Tartaruga">Tartaruga</option>
+                    <option value="Peixe">Peixe</option>
+                    <option value="Outro">Outro</option>
+                </select>
+                <span asp-validation-for="Animal.Especie" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Raça -->
+            <div class="mb-3">
+                <label asp-for="Animal.Raca" class="form-label">Raça</label>
+                <input asp-for="Animal.Raca" class="form-control" />
+                <span asp-validation-for="Animal.Raca" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Data de Nascimento -->
+            <div class="mb-3">
+                <label asp-for="Animal.DataNascimento" class="form-label">Data de Nascimento *</label>
+                <input asp-for="Animal.DataNascimento" type="date" class="form-control" />
+                <span asp-validation-for="Animal.DataNascimento" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Peso -->
+            <div class="mb-3">
+                <label asp-for="Animal.Peso" class="form-label">Peso (kg)</label>
+                <input asp-for="Animal.Peso" type="number" step="0.1" class="form-control" />
+                <span asp-validation-for="Animal.Peso" class="text-danger"></span>
+            </div>
+            
+            <!-- Campo: Observações -->
+            <div class="mb-3">
+                <label asp-for="Animal.ObservacoesMedicas" class="form-label">Observações Médicas</label>
+                <textarea asp-for="Animal.ObservacoesMedicas" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Animal.ObservacoesMedicas" class="text-danger"></span>
+            </div>
+            
+            <hr />
+            
+            <!-- Botões de ação -->
+            <div class="d-flex justify-content-between">
+                <a asp-page="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Guardar Alterações
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

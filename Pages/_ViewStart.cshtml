@@ -1,0 +1,19 @@
+﻿@* ============================================================================
+    _VIEWSTART.CSHTML - Código Executado Antes de Cada Página
+    ============================================================================
+    
+    Este ficheiro é executado automaticamente ANTES de cada página Razor.
+    É útil para definir configurações comuns a todas as páginas.
+    
+    Configuração principal:
+    - Layout = "_Layout": Define o layout padrão para todas as páginas
+    
+    Páginas individuais podem sobrescrever isto usando:
+    Layout = "_AdminLayout";  ou  Layout = null;
+============================================================================ *@
+
+@{
+    // Define o layout padrão como _Layout.cshtml (portal público)
+    // Páginas de admin sobrescrevem para usar _AdminLayout.cshtml
+    Layout = "_Layout";
+}

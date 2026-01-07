@@ -1,0 +1,144 @@
+@* ============================================================================
+    ADMIN/LOGIN.CSHTML - Página de Login do Administrador
+    ============================================================================
+    
+    Esta página permite que administradores façam login no sistema.
+    Após autenticação bem-sucedida, têm acesso às páginas de gestão.
+    
+    Funcionalidades:
+    - Formulário de login com utilizador e palavra-passe
+    - Botão para mostrar/ocultar palavra-passe
+    - Opção "Manter sessão iniciada" para persistir o cookie
+    - Mensagens de erro em caso de credenciais inválidas
+    - Link para voltar ao portal público
+    - Informação de credenciais de demonstração
+    
+    Segurança:
+    - Autenticação via Cookie Authentication
+    - Claims de utilizador e role (Admin)
+    - Expiração configurável da sessão
+    
+    Layout: _Layout.cshtml (público, não _AdminLayout)
+    Model: LoginModel (valida credenciais e cria cookie)
+============================================================================ *@
+
+@page
+@model PetShop.Pages.Admin.LoginModel
+@{
+    ViewData["Title"] = "Login Administrador";
+    Layout = "_Layout"; // Usa layout público, não o admin
+}
+
+@* ===== CONTENTOR PRINCIPAL DE LOGIN ===== *@
+<div class="login-container">
+    @* ===== CARD DE LOGIN ===== *@
+    <div class="login-card">
+        @* Cabeçalho com ícone e título *@
+        <div class="login-header">
+            <div class="login-icon">🔐</div>
+            <h2>Área de Administração</h2>
+            <p>Insira as suas credenciais para aceder</p>
+        </div>
+        
+        @* Corpo do card com formulário *@
+        <div class="login-body">
+            @* Mensagem de erro (ex: credenciais inválidas) *@
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i> @Model.ErrorMessage
+                </div>
+            }
+
+            @* ===== FORMULÁRIO DE LOGIN ===== *@
+            <form method="post">
+                @* Sumário de erros de validação *@
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                
+                @* Campo: Nome de Utilizador *@
+                <div class="form-group mb-4">
+                    <label asp-for="Input.Username" class="form-label">
+                        <i class="fas fa-user"></i> Utilizador
+                    </label>
+                    <input asp-for="Input.Username" class="form-control form-control-lg" 
+                           placeholder="Digite o utilizador" autocomplete="username" />
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                </div>
+
+                @* Campo: Palavra-passe com toggle de visibilidade *@
+                <div class="form-group mb-4">
+                    <label asp-for="Input.Password" class="form-label">
+                        <i class="fas fa-lock"></i> Palavra-passe
+                    </label>
+                    <div class="password-input">
+                        @* Input de password com autocomplete para gestores de passwords *@
+                        <input asp-for="Input.Password" type="password" class="form-control form-control-lg" 
+                               placeholder="Digite a palavra-passe" autocomplete="current-password" id="passwordInput" />
+                        @* Botão para mostrar/ocultar password *@
+                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+                @* Checkbox: Lembrar-me (mantém sessão por 7 dias) *@
+                <div class="form-check mb-4">
+                    <input asp-for="Input.RememberMe" class="form-check-input" />
+                    <label asp-for="Input.RememberMe" class="form-check-label">
+                        Manter sessão iniciada
+                    </label>
+                </div>
+
+                @* Botão de submissão do formulário *@
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </form>
+        </div>
+
+        @* Rodapé com link de retorno *@
+        <div class="login-footer">
+            <a href="/Portal" class="back-link">
+                <i class="fas fa-arrow-left"></i> Voltar ao Portal
+            </a>
+        </div>
+    </div>
+
+    @* ===== INFORMAÇÃO DE CREDENCIAIS DE DEMO =====
+       Mostra credenciais para facilitar testes *@
+    <div class="login-info">
+        <div class="info-card">
+            <i class="fas fa-info-circle"></i>
+            <div>
+                <strong>Credenciais de Demo:</strong><br />
+                <span class="text-muted">Utilizador: admin</span><br />
+                <span class="text-muted">Palavra-passe: admin123</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ===== SCRIPTS =====
+   Scripts de validação jQuery e função para toggle de password *@
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Função para alternar visibilidade da palavra-passe
+        // Muda o tipo do input entre 'password' e 'text'
+        function togglePassword() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
+}

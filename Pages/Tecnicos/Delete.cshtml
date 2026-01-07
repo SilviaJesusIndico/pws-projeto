@@ -1,0 +1,83 @@
+@page
+@model PetShop.Pages.Tecnicos.DeleteModel
+
+@{
+    ViewData["Title"] = "Eliminar Técnico";
+    Layout = "_AdminLayout";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="text-danger">🗑️ Eliminar Técnico</h1>
+        <hr />
+        
+        <!-- Aviso de confirmação -->
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">⚠️ Atenção!</h4>
+            <p>Tem a certeza que deseja eliminar este técnico?</p>
+            @if (Model.TotalAgendamentos > 0)
+            {
+                <hr>
+                <p class="mb-0">
+                    <strong>Nota:</strong> Existem <strong>@Model.TotalAgendamentos agendamento(s)</strong> associados a este técnico.
+                    Ao eliminar, estes agendamentos ficarão sem técnico atribuído.
+                </p>
+            }
+        </div>
+        
+        <!-- Detalhes do técnico -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Detalhes do Técnico</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">Nome Completo</dt>
+                    <dd class="col-sm-9">@Model.Tecnico.NomeCompleto</dd>
+                    
+                    <dt class="col-sm-3">Email</dt>
+                    <dd class="col-sm-9">@Model.Tecnico.Email</dd>
+                    
+                    <dt class="col-sm-3">Telefone</dt>
+                    <dd class="col-sm-9">@(Model.Tecnico.Telefone ?? "Não especificado")</dd>
+                    
+                    <dt class="col-sm-3">Especialização</dt>
+                    <dd class="col-sm-9">@(Model.Tecnico.Especializacao ?? "Não especificada")</dd>
+                    
+                    <dt class="col-sm-3">Data Contratação</dt>
+                    <dd class="col-sm-9">@Model.Tecnico.DataContratacao.ToString("dd/MM/yyyy")</dd>
+                    
+                    <dt class="col-sm-3">Status</dt>
+                    <dd class="col-sm-9">
+                        <span class="badge bg-@(Model.Tecnico.Ativo ? "success" : "secondary")">
+                            @(Model.Tecnico.Ativo ? "Ativo" : "Inativo")
+                        </span>
+                    </dd>
+                    
+                    <dt class="col-sm-3">Agendamentos</dt>
+                    <dd class="col-sm-9">
+                        <span class="badge bg-@(Model.TotalAgendamentos > 0 ? "warning" : "secondary")">
+                            @Model.TotalAgendamentos
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        
+        <hr />
+        
+        <!-- Formulário de confirmação -->
+        <form method="post">
+            <input type="hidden" asp-for="Tecnico.TecnicoID" />
+            
+            <div class="d-flex justify-content-between">
+                <a asp-page="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Cancelar
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Confirmar Eliminação
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

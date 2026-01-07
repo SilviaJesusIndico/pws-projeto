@@ -1,0 +1,119 @@
+﻿@* =====================================================
+    VIEW: Index.cshtml (Página Inicial)
+    
+    Responsabilidade:
+    - Exibir página de boas-vindas da PetShop
+    - Mostrar informações sobre o negócio
+    - Links rápidos para as principais funcionalidades
+    - Cards com resumo de funcionalidades
+    ===================================================== *@
+
+@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "PetShop - Sistema de Gestão";
+}
+
+<!-- Hero Section -->
+<div class="jumbotron p-5 rounded-lg mb-4">
+    <h1 class="display-4">🐾 Bem-vindo à PetShop</h1>
+    <p class="lead">Sistema de Gestão Completo para Clínica/Loja de Animais de Estimação</p>
+    <hr class="my-4">
+    <p>Gestione clientes, animais, serviços e agendamentos de forma fácil e eficiente.</p>
+    <a class="btn btn-light btn-lg" href="/Clientes/Index" role="button">
+        <strong>Começar Agora →</strong>
+    </a>
+</div>
+
+<!-- Cards de Funcionalidades -->
+<h2 class="mb-4">📋 Funcionalidades Principais</h2>
+<div class="row g-4 mb-5">
+    <!-- Card 1: Clientes -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">👥</div>
+                <h5 class="card-title">Clientes</h5>
+                <p class="card-text">Gestione os dados dos proprietários dos animais de estimação.</p>
+            </div>
+            <div class="card-footer text-center">
+                <a href="/Clientes/Index" class="btn btn-primary btn-sm">Ir para Clientes</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2: Animais -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🐕</div>
+                <h5 class="card-title">Animais</h5>
+                <p class="card-text">Registar e gestionar informações dos animais de estimação.</p>
+            </div>
+            <div class="card-footer text-center">
+                <a href="/Animais/Index" class="btn btn-primary btn-sm">Ir para Animais</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: Serviços -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">✂️</div>
+                <h5 class="card-title">Serviços</h5>
+                <p class="card-text">Defina os serviços oferecidos (banho, tosa, consulta, etc.).</p>
+            </div>
+            <div class="card-footer text-center">
+                <a href="/Servicos/Index" class="btn btn-primary btn-sm">Ir para Serviços</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <!-- Card 4: Agendamentos -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📅</div>
+                <h5 class="card-title">Agendamentos</h5>
+                <p class="card-text">Agende serviços para animais com data, hora e técnico.</p>
+            </div>
+            <div class="card-footer text-center">
+                <a href="/Agendamentos/Index" class="btn btn-primary btn-sm">Ir para Agendamentos</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 5: Técnicos -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍⚕️</div>
+                <h5 class="card-title">Técnicos</h5>
+                <p class="card-text">Gestione os dados dos técnicos/funcionários da PetShop.</p>
+            </div>
+            <div class="card-footer text-center">
+                <a href="/Tecnicos/Index" class="btn btn-primary btn-sm">Ir para Técnicos</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 6: Informações -->
+    <div class="col-md-4">
+        <div class="card h-100 border-0">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">ℹ️</div>
+                <h5 class="card-title">Documentação</h5>
+                <p class="card-text">Aceda ao README com documentação técnica completa.</p>
+            </div>
+            <div class="card-footer text-center">
+                <a href="https://github.com" target="_blank" class="btn btn-primary btn-sm">Ver Documentação</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
